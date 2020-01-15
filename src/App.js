@@ -8,7 +8,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import store from "./store/index.js"
 import PageLoading from "./components/utils/page_loading/index.jsx";
 import { GlobalStyle } from "./style";
-
+import { IconStyle } from "../src/assets/iconfont/iconfont"
 // import routes from "./routes/index.jsx"
 // import "./App.scss"
 
@@ -19,8 +19,7 @@ const SuspenseComponent = Component => props => {
     </Suspense>
   )
 }
-
-const HomeComponent = lazy(() => import("./application/Home/index.jsx"));
+const RecommendComponent = lazy(() => import("./application/Recommend/index.jsx"))
 const DetailsComponent = lazy(() => import("./application/Details/index.jsx"));
 
 function App() {
@@ -29,8 +28,9 @@ function App() {
       {/* {routes} */}
       <BrowserRouter>
         <GlobalStyle></GlobalStyle>
+        <IconStyle></IconStyle>
         <Switch>
-          <Route exact path="/" component={SuspenseComponent(HomeComponent)} />
+          <Route exact path="/recommend" component={SuspenseComponent(RecommendComponent)} />
           <Route
             path="/details"
             component={SuspenseComponent(DetailsComponent)}

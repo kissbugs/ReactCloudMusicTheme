@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import * as S from "./style.js";
-import icon_loading from "../../../assets/loading.gif";
+import icon_loading from "../../../assets/images/loading.gif";
 
 const ToastLoadSection = ({ ...props }) => {
   const { children } = props;

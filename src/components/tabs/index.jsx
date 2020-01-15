@@ -143,3 +143,33 @@ Tabs.propTypes = {
 Tabs.defaultProps = {
   animatedTabTitle: false
 };
+
+
+/**
+ * usage like:
+ import { Tabs, TabPane } from "../../components/tabs/index.jsx";
+  const tabClick = (e, activeTabIndex) => {
+    console.log("activeTabIndex: ", activeTabIndex);
+    const navigateUrl = MENU_UNITS[activeTabIndex];
+    window.location.href = navigateUrl.url;
+    console.log("navigateUrl: ", navigateUrl.url);
+  };
+
+  <Tabs
+    defaultAction={tabClick}
+    styles="head_menu_ul clear_scroll_bar"
+    defaultActiveIndex={Number(1)}
+    // animatedTabTitle={true}
+  >
+    {MENU_UNITS.map((unit, index) => (
+      <TabPane
+        tab={unit.name}
+        styles="head_menu_li"
+        activeStyle="tab_light"
+        key={index}
+      >
+        <div className="content">{unit.name}</div>
+      </TabPane>
+    ))}
+  </Tabs>
+ */

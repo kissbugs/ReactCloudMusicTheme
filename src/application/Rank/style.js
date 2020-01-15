@@ -1,5 +1,5 @@
 import styled from "styled-components"
 
-export const RecommendContainer = styled.div`
+export const RankContainer = styled.div`
   color: #fff;
 `

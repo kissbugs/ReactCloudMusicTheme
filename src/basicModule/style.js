@@ -1,6 +1,10 @@
 import styled from "styled-components"
 
 export const TopBarContainer = styled.div`
+
+`
+
+export const BarBox = styled.div`
   background: #151618;
   color: #fff;
   height: 50px;

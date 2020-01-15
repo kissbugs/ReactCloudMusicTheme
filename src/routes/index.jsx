@@ -1,44 +1,48 @@
 import React, { lazy, Suspense } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import PageLoading from "../components/utils/page_loading/index.jsx";
+import TopMenuLayout from "../basicModule/TopMenuLayout.jsx";
 
-const SuspenseComponent = Component => {
-  const comp = props => {
-    const Comp = lazy(Component);
-    return (
-      <Suspense fallback={<PageLoading text={"页面加载中..."} />}>
-        <Comp {...props} />
-      </Suspense>
-    );
-  };
-  comp.displayName = "SuspenseComponent";
-  return comp;
-};
-
-export const HomeComponent = SuspenseComponent(() =>
-  import("../application/Home/index.jsx")
-);
-export const DetailsComponent = SuspenseComponent(() =>
-  import("../application/Details/index.jsx")
-);
-
-import Home from "../application/Home/index";
-import Details from "../application/Details/index";
-
-function Routes() {
+const SuspenseComponent = Component => props => {
   return (
-    <BrowserRouter>
+    <Suspense fallback={<PageLoading text={"页面加载中..."} />}>
+      <Component {...props}></Component>
+    </Suspense>
+  );
+};
+const RecommendComponent = lazy(() =>
+  import("../application/Recommend/index.jsx")
+);
+const SongListComponent = lazy(() =>
+  import("../application/SongList/index.jsx")
+);
+const RankComponent = lazy(() => import("../application/Rank/index.jsx"));
+const DjRadioComponent = lazy(() => import("../application/DjRadio/index.jsx"));
+const SearchComponent = lazy(() => import("../application/Search/index.jsx"));
+
+const DetailsComponent = lazy(() => import("../application/Details/index.jsx"));
+
+export default function Routes() {
+  return (
+    <React.Fragment>
+      <Route path="/" component={TopMenuLayout} />
       <Switch>
-        {/* <Route exact path="/" component={SuspenseComponent(HomeComponent)} />
-          <Route
-            path="/details"
-            component={SuspenseComponent(DetailsComponent)}
-          /> */}
-        <Route exact path="/" component={Home} />
-        <Route path="/details" component={Details} />
+        <Route
+          exact
+          path="/recommend"
+          component={SuspenseComponent(RecommendComponent)}
+        />
+        <Route
+          path="/songList"
+          component={SuspenseComponent(SongListComponent)}
+        />
+        <Route path="/rank" component={SuspenseComponent(RankComponent)} />
+        <Route path="/djRadio" component={SuspenseComponent(DjRadioComponent)} />
+        <Route
+          path="/details"
+          component={SuspenseComponent(DetailsComponent)}
+        />
       </Switch>
-    </BrowserRouter>
+    </React.Fragment>
   );
 }
-
-export default Routes;

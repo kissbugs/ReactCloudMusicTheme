@@ -1,5 +1,5 @@
-import React, { lazy, Suspense } from "react";
-import { Route, Switch } from "react-router-dom";
+import React, { lazy, Suspense, useEffect } from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
 import PageLoading from "../components/utils/page_loading/index.jsx";
 import TopMenuLayout from "../basicModule/TopMenuLayout.jsx";
 
@@ -27,8 +27,8 @@ export default function Routes() {
     <React.Fragment>
       <Route path="/" component={TopMenuLayout} />
       <Switch>
+        <Redirect exact from="/" to="/recommend" />
         <Route
-          exact
           path="/recommend"
           component={SuspenseComponent(RecommendComponent)}
         />
@@ -37,7 +37,12 @@ export default function Routes() {
           component={SuspenseComponent(SongListComponent)}
         />
         <Route path="/rank" component={SuspenseComponent(RankComponent)} />
-        <Route path="/djRadio" component={SuspenseComponent(DjRadioComponent)} />
+        <Route
+          path="/djRadio"
+          component={SuspenseComponent(DjRadioComponent)}
+        />
+        <Route path="/search" component={SuspenseComponent(SearchComponent)} />
+
         <Route
           path="/details"
           component={SuspenseComponent(DetailsComponent)}

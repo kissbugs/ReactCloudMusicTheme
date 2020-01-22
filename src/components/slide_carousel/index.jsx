@@ -1,11 +1,15 @@
-import React from 'react'
+import React from "react";
+import * as S from "./style.js";
 
-const slideCarousel = () => {
+const slideCarousel = props => {
+  const { bannerList } = props;
+  console.log("slide_carousel_bannerList: ", bannerList);
+  if (!bannerList || bannerList.length <= 0) return null;
   return (
-    <div>
-      slideCarousel
-    </div>
-  )
-}
+    <S.SlideCarouselContainer>
+      <img src={bannerList[0].imageUrl} alt="" />
+    </S.SlideCarouselContainer>
+  );
+};
 
 export default slideCarousel;

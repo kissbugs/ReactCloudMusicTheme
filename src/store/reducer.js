@@ -2,11 +2,11 @@
 
 
 import { combineReducers } from "redux";
-// import DetailsReducer from "../application/Details/store/reducer.js";
-import { reducer as DetailsReducer} from "../application/Details/store/index"
+// import { reducer as detailsReducer} from "../application/Details/store/index""
+import { reducer as recommendReducer } from "../application/Recommend/store/index";
 
 const reducer = combineReducers({
-  details: DetailsReducer
+  recommend: recommendReducer
 })
 
 export default reducer;

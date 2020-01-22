@@ -1,14 +1,13 @@
 import axios from 'axios';
 // import { ToastManager } from "../components/utils/toast/index.jsx";
 
-export const baseApiUrl = "http://api.kissvon.cn"
+export const baseApiUrl = "http://47.98.159.95/m-api"
 const axiosInstance = axios.create({
   baseURL: baseApiUrl
 })
 
 axiosInstance.interceptors.request.use(config => {
   // 设置请求拦截器
-  console.log("request")
   return config;
 }, (_err) => {
   return Promise.reject(_err)

@@ -26,7 +26,7 @@ export default () => {
   return (
     <S.MenuNavigationContainer>
       {MENU_UNITS.map((nav, index) => (
-        <NavLink to={nav.url} key={index} activeClassName="active" >
+        <NavLink to={nav.url} key={index} activeClassName="active">
           <span>{nav.name}</span>
         </NavLink>
       ))}

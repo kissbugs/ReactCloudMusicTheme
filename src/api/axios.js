@@ -1,7 +1,7 @@
 import axios from 'axios';
 // import { ToastManager } from "../components/utils/toast/index.jsx";
 
-export const baseApiUrl = "http://47.98.159.95/m-api"
+export const baseApiUrl = "http://api.kissvon.cn"
 const axiosInstance = axios.create({
   baseURL: baseApiUrl
 })

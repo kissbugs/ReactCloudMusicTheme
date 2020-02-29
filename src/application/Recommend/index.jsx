@@ -22,11 +22,30 @@ const Recommend = props => {
 
   return (
     <S.RecommendContainer>
+       {/* 轮播组件 */}
       <SlideCarousel bannerList={bannerList} />
-      <div>Recommend</div>
+      {/* <CategoryPlaylist /> */}
     </S.RecommendContainer>
   );
 };
+
+
+// 歌曲流派 · 歌单分类
+const CategoryPlaylist = () => {
+  return (
+    <div className="song_genre_box">
+      <div className="song_genre_top">
+        <div className="text">歌曲流派</div>
+        <div className="more_genre">查看更多</div>
+      </div>
+      <ul className="song_genre_content">
+        <li>
+          hello
+        </li>
+      </ul>
+    </div>
+  );
+}
 
 const mapStateToProps = state => {
   console.error('state: ', state);

@@ -13,6 +13,11 @@ export const getRecommendListRequest = () => {
   return axiosInstance.get("/personalized")
 }
 
+// 获取歌单分类（流派）
+export const getCategoryPlaylist = () => {
+  return axiosInstance.get("/playlist/catlist")
+}
+
 // 获取热门歌手列表
 export const getHotSingerListRequest = count => {
   return axiosInstance.get(`/top/artists?offset=${count}`);

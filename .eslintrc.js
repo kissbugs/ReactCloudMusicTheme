@@ -5,11 +5,19 @@ module.exports = {
   },
   extends: [
     'react-app',
+    'prettier',
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:prettier/recommended'
   ],
   parser: "babel-eslint",
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true
+    },
+    ecmaVersion: 2018,
+    sourceType: "module"
+  },
   plugins: ['react-hooks', 'react', 'import', 'prettier'],
   rules: {
     'prettier/prettier': ['warn'],

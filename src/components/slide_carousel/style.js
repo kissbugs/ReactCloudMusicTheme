@@ -1,8 +1,12 @@
 import styled from "styled-components"
 
 export const SlideCarouselContainer = styled.div`
-  background: #fff;
-  color: #49c114;
+  .swiper-pagination-bullet {
+    background: #433e48;
+  }
+  .swiper-pagination-bullet-active {
+    background: #fff;
+  }
   img {
     width: 100%;
   }

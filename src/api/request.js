@@ -14,7 +14,7 @@ export const getRecommendListRequest = () => {
 }
 
 // 获取歌单分类（流派）
-export const getCategoryPlaylist = () => {
+export const getCategoryPlayListRequest = () => {
   return axiosInstance.get("/playlist/catlist")
 }
 
@@ -45,14 +45,17 @@ export const getSingerInfoRequest = id => {
   return axiosInstance.get(`/artists?id=${id}`);
 };
 
+// 获取热搜列表(详细)
 export const getHotKeyWordsRequest = () => {
-  return axiosInstance.get(`/search/hot`);
+  return axiosInstance.get(`/search/hot/detail`);
 };
 
+// 获取搜索建议
 export const getSuggestListRequest = query => {
   return axiosInstance.get(`/search/suggest?keywords=${query}`);
 };
 
+// 获取搜索
 export const getResultSongsListRequest = query => {
   return axiosInstance.get(`/search?keywords=${query}`);
 };

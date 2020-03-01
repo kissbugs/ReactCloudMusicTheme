@@ -1,5 +1,5 @@
 import * as actionTypes from "./constants"
-import { getBannerRequest, getRecommendListRequest } from "../../../api/request"
+import { getBannerRequest, getRecommendListRequest, getCategoryPlayListRequest } from "../../../api/request"
 
 export const changeBannerList = (data) => ({
   type: actionTypes.CHANGE_BANNER,
@@ -11,14 +11,18 @@ export const changeRecommendList = (data) => ({
   data
 });
 
+export const changeCategoryPlayList = (data) => ({
+  type: actionTypes.CHANGE_CATEGORY_PLAY_LIST,
+  data
+})
+
 export const getBannerList = () => {
   return (dispatch) => {
     getBannerRequest().then(data => {
-      console.error("getBannerList_data: ", data);
       const action = changeBannerList(data.banners)
       dispatch(action)
     }).catch(e => {
-      console.error("bannerList_error: ", e)
+      console.error("获取轮播图出错: ", e)
     })
   }
 }
@@ -27,11 +31,22 @@ export const getBannerList = () => {
 export const getRecommendList = () => {
   return (dispatch) => {
     getRecommendListRequest().then(data => {
-      console.log("getRecommendListRequest_data: ", data);
       const action = changeRecommendList(data.result)
       dispatch(action)
     }).catch(e => {
-      console.error("recommendList_error: ", e);
+      console.error("获取推荐列表出错: ", e);
+    })
+  }
+}
+
+export const getCategoryPlayList = () => {
+  return (dispatch) => {
+    getCategoryPlayListRequest().then(data => {
+      // console.log('data: ', data);
+      const action = changeCategoryPlayList(data.sub)
+      dispatch(action)
+    }).catch(e => {
+      console.error("获取歌单分类（流派）出错: ", e);
     })
   }
 }

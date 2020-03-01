@@ -6,14 +6,14 @@ export default props => {
   return (
     <S.TopBarContainer>
       <S.BarBox>
-        <div className="iconfont lef_menu">&#xe609;</div>
+        <i className="iconfont lef_menu">&#xe609;</i>
         <div className="text">Musical</div>
-        <div
+        <i
           className="iconfont right_search"
           onClick={() => props.history.push("/search")}
         >
           &#xe6ca;
-        </div>
+        </i>
       </S.BarBox>
       <MenuNavigation />
     </S.TopBarContainer>

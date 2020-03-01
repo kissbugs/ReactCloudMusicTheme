@@ -17,8 +17,7 @@ export const GlobalStyle = createGlobalStyle`
 		margin: 0;
 		padding: 0;
 		border: 0;
-		font-size: 100%;
-		font: inherit;
+		font-size: 15px;
 		vertical-align: baseline;
 	}
 	/* HTML5 display-role reset for older browsers */
@@ -51,5 +50,14 @@ export const GlobalStyle = createGlobalStyle`
 	a{
 		text-decoration: none;
 		color: #fff;
-	}
+  }
+  .clear_scroll_bar {
+    -webkit-overflow-scrolling: touch;
+    // 屏蔽overflow scroll 滚动条
+    -ms-overflow-style: none;  // IE 10+
+    scrollbar-width: none;  // Firefox
+    &::-webkit-scrollbar { 
+      display: none;  // Safari and Chrome
+    }
+  }
 `

@@ -1,11 +1,12 @@
 import React, { memo, useState, useEffect, useRef, useCallback } from "react";
 import { connect } from "react-redux";
 import * as actionTypes from "./store/actionCreators.js";
+import { debounce } from "../../api/helper";
 import * as S from "./style.js";
 
 const Search = memo(({ ...props }) => {
   console.log("Search_props: ", props);
-  const { hotKeyWordsList } = props;
+  const { hotKeyWordsList, searchSuggestList, searchResultSongsList } = props;
   const {
     getHotKeyWordsListDispatch,
     getSearchSuggestListDispatch,
@@ -17,23 +18,72 @@ const Search = memo(({ ...props }) => {
 
   const handleInputChange = e => {
     const value = e.target.value;
-    console.log("value: ", value);
+    setSearchSuggestName("");
     setInputValue(value);
+    if (value && value != "") {
+      getSearchSuggestListDispatch(value);
+      getSearchResultSongsListDispatch(value);
+    }
   };
   useEffect(() => {
-    getHotKeyWordsListDispatch();
-    getSearchSuggestListDispatch();
+    if (!hotKeyWordsList.length && !inputValue) {
+      getHotKeyWordsListDispatch();
+    }
+    // getSearchSuggestListDispatch();
     // getSearchResultSongsListDispatch();
-  }, []);
+  }, [!inputValue]);
 
   const handleBack = useCallback(() => {
     props.history.goBack();
   }, []);
+
   const handleSearchSuggest = useCallback(e => {
     let name = e.currentTarget.getAttribute("data-name");
     console.log("name_name: ", name);
     setSearchSuggestName(name);
+    if (name && name != "") {
+      getSearchSuggestListDispatch(name);
+      getSearchResultSongsListDispatch(name);
+    }
   }, []);
+
+  // const renderSearchSingers = () => {
+  //   // 相关歌手
+  //   const searchSuggestList = searchSuggestList.artists;
+  //   if (!searchSuggestList || !searchSuggestList.length) return "";
+  //   return <div className="render_search_singers">渲染歌单</div>;
+  // };
+  // const renderSearchAlbum = () => {
+  //   // 相关歌单
+  //   const searchSuggestList = searchSuggestList.playlists;
+  //   if (!searchSuggestList || !searchSuggestList.length) return "";
+  //   return <div className="render_search_singers">渲染歌单</div>;
+  // };
+  const renderSearchSongs = () => {
+    // 相关歌曲
+    if (!searchResultSongsList || !searchResultSongsList.length) return "";
+    console.log("searchResultSongsList----liwei : ", searchResultSongsList);
+    return (
+      <div className="render_search_songs">
+        {searchResultSongsList.map((song, index) =>
+          !("name" in song) ? (
+            ""
+          ) : (
+            <div className="search_songs" key={index}>
+              <div>
+                <div className="song_name">{song.name}</div>
+                <div className="song_description">
+                  <span>{`${song.artists[0].name}`}</span>
+                  {` - ${song.album.name || `${song.name}`}`}
+                </div>
+              </div>
+              <i className="iconfont lef_menu">&#xe609;</i>
+            </div>
+          )
+        )}
+      </div>
+    );
+  };
 
   return (
     // bounceInDown
@@ -42,20 +92,24 @@ const Search = memo(({ ...props }) => {
         window.location.pathname == "/search" ? "rollIn" : "rollOut"
       }`}
     >
-      {
-        <SearchSongInput
-          inputValue={inputValue}
-          handleBack={handleBack}
-          handleInputChange={handleInputChange}
-          searchSuggestName={searchSuggestName}
-        />
-      }
+      <SearchSongInput
+        inputValue={inputValue}
+        handleBack={handleBack}
+        handleInputChange={handleInputChange}
+        searchSuggestName={searchSuggestName}
+      />
       {hotKeyWordsList.length > 0 && (
         <PopularSearch
           hotKeyWordsList={hotKeyWordsList}
           handleSearchSuggest={handleSearchSuggest}
+          show={inputValue || searchSuggestName}
         />
       )}
+      <div className="search_input_container clear_scroll_bar">
+        {/* {renderSearchSingers()} */}
+        {/* {renderSearchAlbum()} */}
+        {renderSearchSongs()}
+      </div>
     </S.SearchContainer>
   );
 });
@@ -88,14 +142,12 @@ const SearchSongInput = memo(({ ...props }) => {
 });
 
 const PopularSearch = memo(({ ...props }) => {
-  const { hotKeyWordsList, handleSearchSuggest } = props;
+  const { hotKeyWordsList, handleSearchSuggest, show } = props;
 
   // 处理对象可以被拓展
   let newHotKeyWordsList = hotKeyWordsList.map(item => Object.assign({}, item));
-
   if (newHotKeyWordsList && newHotKeyWordsList.length > 0) {
     newHotKeyWordsList.map((item, index) => (item.originIndex = index));
-    console.log("newHotKeyWordsList: ", newHotKeyWordsList);
   }
 
   const copy = [...newHotKeyWordsList];
@@ -108,7 +160,7 @@ const PopularSearch = memo(({ ...props }) => {
   }
   // console.log("处理后的数据splitedHotKeyWordsList: ", splitedHotKeyWordsList);
   return (
-    <S.SopularSearchBox className="clear_scroll_bar">
+    <S.SopularSearchBox className="clear_scroll_bar" show={show}>
       <div className="title">热门搜索</div>
       <div className="popular_search_list">
         {splitedHotKeyWordsList.map((item, index) => (
@@ -158,13 +210,13 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getHotKeyWordsListDispatch() {
-      dispatch(actionTypes.getHotKeyWords());
+      debounce(dispatch(actionTypes.getHotKeyWords()));
     },
-    getSearchSuggestListDispatch() {
-      dispatch(actionTypes.getSearchSuggestList());
+    getSearchSuggestListDispatch(data) {
+      debounce(dispatch(actionTypes.getSearchSuggestList(data)));
     },
-    getSearchResultSongsListDispatch() {
-      dispatch(actionTypes.getSearchResultSongList());
+    getSearchResultSongsListDispatch(data) {
+      debounce(dispatch(actionTypes.getSearchResultSongList(data)));
     }
   };
 };

@@ -46,9 +46,10 @@
         .play_count {
           display: flex;
           align-items: center;
+          font-size: 12px;
           .icon_listen {
             padding-right: 3px;
-            font-size: 15px;
+            font-size: 12px;
           }
         }
       }

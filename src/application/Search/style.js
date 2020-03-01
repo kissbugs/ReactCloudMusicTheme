@@ -16,6 +16,36 @@ export const SearchContainer = styled.div`
     max-width: 500px;
     margin: 0 auto;
   }
+  .search_input_container {
+    margin: 0 15px;
+    height: calc(95vh - 60px);
+    overflow-x: hidden;
+    overflow-y: scroll;
+    .render_search_songs {
+      .search_songs {
+        padding: 12px 0;
+        border-bottom: 1px solid #333;
+        font-weight: 300;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        &:last-child {
+          border-bottom: none;
+        }
+        .song_name {
+          padding-bottom: 7px;
+        }
+        .song_description {
+          font-size: 12px;
+          span {
+            color: blue;
+            font-size: 12px;
+            color: #2288e4;
+          }
+        }
+      }
+    }
+  }
 `
 
 export const SearchSongInputContainer = styled.div`
@@ -54,6 +84,7 @@ export const SopularSearchBox = styled.div`
   height: calc(95vh - 60px);
   overflow-x: hidden;
   overflow-y: scroll;
+  display: ${props => props.show ? "none" : null};
   .title {
     padding-bottom: 20px;
   }

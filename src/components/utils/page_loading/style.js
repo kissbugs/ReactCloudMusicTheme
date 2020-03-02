@@ -26,7 +26,6 @@ export const PageLoadingContainer = styled.div`
     position: absolute;
     top: 0;
     left: 0;
-
     animation: bounce 2s infinite ease-in-out;
   }
 

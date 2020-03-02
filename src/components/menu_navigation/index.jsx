@@ -17,10 +17,10 @@ export default () => {
       name: "排行榜",
       url: "/rank"
     },
-    {
-      name: "电台",
-      url: "/djradio"
-    }
+    // {
+    //   name: "电台",
+    //   url: "/djradio"
+    // }
   ];
 
   return (

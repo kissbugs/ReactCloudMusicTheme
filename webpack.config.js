@@ -10,16 +10,6 @@ module.exports = {
   devtool: 'inline-source-map',
 
   entry: path.resolve(__dirname, "./src/index.js"),
-  devServer: {
-    publicPath: '/',
-    contentBase: path.resolve(__dirname, 'dist'),
-    // 用来显示路由地址正确显示
-    historyApiFallback: {
-      index: '/'
-    },
-    hot: true,
-    hotOnly: true
-  },
   resolve: {
     alias: {
       '@': resolve('src'),
@@ -77,6 +67,16 @@ module.exports = {
     }),
     new CleanWebpackPlugin()
   ],
+  devServer: {
+    publicPath: '/',
+    contentBase: path.resolve(__dirname, 'dist'),
+    // 用来显示路由地址正确显示
+    historyApiFallback: {
+      index: '/'
+    },
+    hot: true,
+    hotOnly: true
+  },
   // optimization: {
     // usedExports: true, // 如果模式是生产环境，usedExports 不需要配置
     // minimizer: [

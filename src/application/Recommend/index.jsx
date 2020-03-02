@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import SlideCarousel from "../../components/slide_carousel/index.jsx";
 import * as actionTypes from "./store/actionCreators.js";
 import Loading from "../../basicModule/loading/index";
+import SongList from "../SongList/index";
 import * as S from "./style.js";
 import * as Components from "./components";
 
@@ -97,12 +98,8 @@ const Recommend = memo(({ ...props }) => {
           ThemeColor={ThemeColor}
         />
       )}
-      {<Components.RecommendList recommendList={recommendList} />}
-      {enterLoading ? (
-        <S.EnterLoading>
-          <Loading></Loading>
-        </S.EnterLoading>
-      ) : null}
+      {<Components.RecommendList {...props} />}
+      {enterLoading ? <Loading></Loading> : null}
     </S.RecommendContainer>
   );
 });

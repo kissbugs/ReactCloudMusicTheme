@@ -1,11 +1,12 @@
 import React, { lazy, Suspense, useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import PageLoading from "../components/utils/page_loading/index.jsx";
+// import PageLoading from "../components/utils/page_loading/index.jsx";
+import Loading from "../basicModule/loading/index";
 import TopMenuLayout from "../basicModule/TopMenuLayout.jsx";
 
 const SuspenseComponent = Component => props => {
   return (
-    <Suspense fallback={<PageLoading text={"页面加载中..."} />}>
+    <Suspense fallback={<Loading />}>
       <Component {...props}></Component>
     </Suspense>
   );
@@ -23,25 +24,17 @@ const SongListComponent = lazy(() =>
   )
 );
 const RankComponent = lazy(() =>
-  import(
-    /* webpackChunkName: 'rank' */ "../application/Rank/index.jsx"
-  )
+  import(/* webpackChunkName: 'rank' */ "../application/Rank/index.jsx")
 );
 const DjRadioComponent = lazy(() =>
-  import(
-    /* webpackChunkName: 'dj-radio' */ "../application/DjRadio/index.jsx"
-  )
+  import(/* webpackChunkName: 'dj-radio' */ "../application/DjRadio/index.jsx")
 );
 const SearchComponent = lazy(() =>
-  import(
-    /* webpackChunkName: 'search' */ "../application/Search/index.jsx"
-  )
+  import(/* webpackChunkName: 'search' */ "../application/Search/index.jsx")
 );
 
 const DetailsComponent = lazy(() =>
-  import(
-    /* webpackChunkName: 'detail' */ "../application/Details/index.jsx"
-  )
+  import(/* webpackChunkName: 'detail' */ "../application/Details/index.jsx")
 );
 
 export default function Routes() {

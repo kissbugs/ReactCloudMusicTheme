@@ -53,27 +53,35 @@ export const SearchSongInputContainer = styled.div`
   align-items: center;
   padding: 15px;
   height: 60px;
-  input {
-    padding: 10px 0 10px 10px;
-    border: none;
-    outline: none;
-    font-size: 13px;
-    border-radius: 50px;
+  .input_query_box {
     width: 80%;
-    background: #212121;
-    color: #5d5d5d;
-  }
-  input::-webkit-input-placeholder {
-    color: #5d5d5d;
-  }
-  input::-moz-placeholder {
-    color: #5d5d5d;
-  }
-  input::-moz-placeholder {
-    color: #5d5d5d;
-  }
-  input:-ms-input-placeholder {
-    color: #5d5d5d;
+    display: flex;
+    align-items: center;
+    input {
+      padding: 10px 0 10px 10px;
+      border: none;
+      outline: none;
+      font-size: 13px;
+      border-radius: 50px;
+      width: 90%;
+      background: #212121;
+      color: #5d5d5d;
+    }
+    input::-webkit-input-placeholder {
+      color: #5d5d5d;
+    }
+    input::-moz-placeholder {
+      color: #5d5d5d;
+    }
+    input::-moz-placeholder {
+      color: #5d5d5d;
+    }
+    input:-ms-input-placeholder {
+      color: #5d5d5d;
+    }
+    i {
+      margin-left: -35px;
+    }
   }
 `
 export const IconBack = styled.div`

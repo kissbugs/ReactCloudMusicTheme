@@ -1,51 +1,52 @@
-import React, { memo, useState, useEffect, useRef, useCallback } from "react";
+import React, {
+  memo,
+  useState,
+  useMemo,
+  useEffect,
+  useRef,
+  useCallback
+} from "react";
 import { connect } from "react-redux";
 import * as actionTypes from "./store/actionCreators.js";
 import { debounce } from "../../api/helper";
+import Loading from "../../basicModule/loading/index";
 import * as S from "./style.js";
 
 const Search = memo(({ ...props }) => {
   console.log("Search_props: ", props);
-  const { hotKeyWordsList, searchSuggestList, searchResultSongsList } = props;
   const {
+    hotKeyWordsList,
+    searchSuggestList,
+    searchResultSongsList,
+    enterLoading
+  } = props;
+  const {
+    changeEnterLoadingDispatch,
     getHotKeyWordsListDispatch,
     getSearchSuggestListDispatch,
     getSearchResultSongsListDispatch
   } = props;
 
-  const [inputValue, setInputValue] = useState("");
-  const [searchSuggestName, setSearchSuggestName] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const handleInputChange = e => {
-    const value = e.target.value;
-    setSearchSuggestName("");
-    setInputValue(value);
-    if (value && value != "") {
-      getSearchSuggestListDispatch(value);
-      getSearchResultSongsListDispatch(value);
-    }
-  };
   useEffect(() => {
-    if (!hotKeyWordsList.length && !inputValue) {
+    if (!hotKeyWordsList.length && !searchQuery) {
       getHotKeyWordsListDispatch();
     }
     // getSearchSuggestListDispatch();
     // getSearchResultSongsListDispatch();
-  }, [!inputValue]);
+  }, [!searchQuery]);
 
   const handleBack = useCallback(() => {
     props.history.goBack();
   }, []);
 
-  const handleSearchSuggest = useCallback(e => {
-    let name = e.currentTarget.getAttribute("data-name");
-    console.log("name_name: ", name);
-    setSearchSuggestName(name);
-    if (name && name != "") {
-      getSearchSuggestListDispatch(name);
-      getSearchResultSongsListDispatch(name);
+  useEffect(() => {
+    if (searchQuery && searchQuery != "") {
+      getSearchSuggestListDispatch(searchQuery);
+      getSearchResultSongsListDispatch(searchQuery);
     }
-  }, []);
+  }, [searchQuery]);
 
   // const renderSearchSingers = () => {
   //   // 相关歌手
@@ -85,6 +86,65 @@ const Search = memo(({ ...props }) => {
     );
   };
 
+  const renderPopularSearch = () => {
+    // 处理对象可以被拓展
+    let newHotKeyWordsList = hotKeyWordsList.map(item =>
+      Object.assign({}, item)
+    );
+    if (newHotKeyWordsList && newHotKeyWordsList.length > 0) {
+      newHotKeyWordsList.map((item, index) => (item.originIndex = index));
+    }
+
+    const copy = [...newHotKeyWordsList];
+    const splitedHotKeyWordsList = [];
+    while (copy.length) {
+      const sliced = copy.splice(0, 2);
+      splitedHotKeyWordsList.push({
+        value: sliced
+      });
+    }
+    // console.log("处理后的数据splitedHotKeyWordsList: ", splitedHotKeyWordsList);
+    return (
+      <S.SopularSearchBox className="clear_scroll_bar" show={searchQuery}>
+        <div className="title">热门搜索</div>
+        <div className="popular_search_list">
+          {splitedHotKeyWordsList.map((item, index) => (
+            <ul className="single_search_list" key={index}>
+              {item.value.map((ele, ind) => (
+                <li key={ind} onClick={() => setSearchQuery(ele.searchWord)}>
+                  <div
+                    className={`list_index ${
+                      ele.originIndex < 4 ? "hot_song" : ""
+                    }`}
+                  >
+                    {ele.originIndex + 1}
+                  </div>
+                  <div className="search_content">
+                    <div className="song_name_box">
+                      <div className="song_name">{ele.searchWord}</div>
+                      <img src={ele.iconUrl} alt="" />
+                    </div>
+                    <div className="song_description">{ele.content}</div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ))}
+        </div>
+      </S.SopularSearchBox>
+    );
+  };
+
+  const handleSearchQuery = q => {
+    console.warn("q: ", q);
+    setSearchQuery(q);
+    if (!q) return;
+    // getSuggestListDispatch(q);
+    changeEnterLoadingDispatch(true);
+    getSearchSuggestListDispatch(q);
+    getSearchResultSongsListDispatch(q);
+  };
+
   return (
     // bounceInDown
     <S.SearchContainer
@@ -93,108 +153,80 @@ const Search = memo(({ ...props }) => {
       }`}
     >
       <SearchSongInput
-        inputValue={inputValue}
+        newSearchQuery={searchQuery}
         handleBack={handleBack}
-        handleInputChange={handleInputChange}
-        searchSuggestName={searchSuggestName}
+        handleSearchQuery={handleSearchQuery}
       />
-      {hotKeyWordsList.length > 0 && (
-        <PopularSearch
-          hotKeyWordsList={hotKeyWordsList}
-          handleSearchSuggest={handleSearchSuggest}
-          show={inputValue || searchSuggestName}
-        />
-      )}
+      {hotKeyWordsList.length > 0 && renderPopularSearch()}
       <div className="search_input_container clear_scroll_bar">
         {/* {renderSearchSingers()} */}
         {/* {renderSearchAlbum()} */}
         {renderSearchSongs()}
       </div>
+      {enterLoading ? <Loading></Loading> : null}
     </S.SearchContainer>
   );
 });
 
 const SearchSongInput = memo(({ ...props }) => {
-  const {
-    inputValue,
-    handleBack,
-    handleInputChange,
-    searchSuggestName
-  } = props;
+  const { newSearchQuery, handleBack, handleSearchQuery } = props;
+
+  const [searchQuery, setSearchQuery] = useState("");
+
   const queryRef = useRef();
   useEffect(() => {
     queryRef.current.focus();
   }, []);
+
+  useEffect(() => {
+    // 解决点击热搜中的歌曲名显示在input框中
+    let curSearchQuery = searchQuery;
+    if (newSearchQuery !== searchQuery) {
+      curSearchQuery = newSearchQuery;
+      queryRef.current.value = newSearchQuery;
+    }
+    setSearchQuery(curSearchQuery);
+  }, [newSearchQuery]);
+
+  const handleSearchQueryDebounce = useMemo(() => {
+    return debounce(handleSearchQuery, 500);
+  }, [handleSearchQuery]);
+
+  useEffect(() => {
+    // 很实用的技巧
+    handleSearchQueryDebounce(searchQuery);
+  }, [searchQuery]);
+
+  const handleInputChange = e => {
+    const value = e.target.value;
+    setSearchQuery(value);
+  };
+
+  const clearSearchQuery = () => {
+    setSearchQuery("");
+    queryRef.current.value = "";
+    queryRef.current.focus();
+  };
+
   return (
     <S.SearchSongInputContainer>
-      <input
-        type="text"
-        ref={queryRef}
-        placeholder="输入歌曲、歌手"
-        value={inputValue || searchSuggestName}
-        onChange={handleInputChange}
-      />
+      <div className="input_query_box">
+        <input
+          type="text"
+          ref={queryRef}
+          placeholder="输入歌曲、歌手"
+          onChange={handleInputChange}
+        />
+        {searchQuery && (
+          <i className="iconfont icon_close" onClick={clearSearchQuery}>
+            &#xe609;
+          </i>
+        )}
+      </div>
       <S.IconBack className="icon_back" onClick={handleBack}>
         取消
       </S.IconBack>
     </S.SearchSongInputContainer>
-  );
-});
-
-const PopularSearch = memo(({ ...props }) => {
-  const { hotKeyWordsList, handleSearchSuggest, show } = props;
-
-  // 处理对象可以被拓展
-  let newHotKeyWordsList = hotKeyWordsList.map(item => Object.assign({}, item));
-  if (newHotKeyWordsList && newHotKeyWordsList.length > 0) {
-    newHotKeyWordsList.map((item, index) => (item.originIndex = index));
-  }
-
-  const copy = [...newHotKeyWordsList];
-  const splitedHotKeyWordsList = [];
-  while (copy.length) {
-    const sliced = copy.splice(0, 2);
-    splitedHotKeyWordsList.push({
-      value: sliced
-    });
-  }
-  // console.log("处理后的数据splitedHotKeyWordsList: ", splitedHotKeyWordsList);
-  return (
-    <S.SopularSearchBox className="clear_scroll_bar" show={show}>
-      <div className="title">热门搜索</div>
-      <div className="popular_search_list">
-        {splitedHotKeyWordsList.map((item, index) => (
-          <ul className="single_search_list" key={index}>
-            {item.value.map((ele, ind) => (
-              <LiSection
-                key={ind}
-                songList={ele}
-                handleSearchSuggest={handleSearchSuggest}
-              />
-            ))}
-          </ul>
-        ))}
-      </div>
-    </S.SopularSearchBox>
-  );
-});
-
-const LiSection = memo(({ songList, handleSearchSuggest }) => {
-  return (
-    <li data-name={songList.searchWord} onClick={handleSearchSuggest}>
-      <div
-        className={`list_index ${songList.originIndex < 4 ? "hot_song" : ""}`}
-      >
-        {songList.originIndex + 1}
-      </div>
-      <div className="search_content">
-        <div className="song_name_box">
-          <div className="song_name">{songList.searchWord}</div>
-          <img src={songList.iconUrl} alt="" />
-        </div>
-        <div className="song_description">{songList.content}</div>
-      </div>
-    </li>
   );
 });
 
@@ -210,13 +242,16 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getHotKeyWordsListDispatch() {
-      debounce(dispatch(actionTypes.getHotKeyWords()));
+      dispatch(actionTypes.getHotKeyWords());
     },
     getSearchSuggestListDispatch(data) {
-      debounce(dispatch(actionTypes.getSearchSuggestList(data)));
+      dispatch(actionTypes.getSearchSuggestList(data));
+    },
+    changeEnterLoadingDispatch(data) {
+      dispatch(actionTypes.changeEnterLoading(data));
     },
     getSearchResultSongsListDispatch(data) {
-      debounce(dispatch(actionTypes.getSearchResultSongList(data)));
+      dispatch(actionTypes.getSearchResultSongList(data));
     }
   };
 };

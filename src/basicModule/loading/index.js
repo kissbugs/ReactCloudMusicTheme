@@ -18,7 +18,7 @@ const LoadingWrapper = styled.div`
       height: 60px;
       opacity: 0.6;
       border-radius: 50%;
-      background-color: "#d44439";
+      background-color: #d44439;
       animation: ${loading} 1.4s infinite ease-in;
     }
     >div:nth-child(2) {
@@ -26,13 +26,30 @@ const LoadingWrapper = styled.div`
     }
 `
 
+const EnterLoading = styled.div`
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  background: rgba(0,0,0,.1);
+  z-index: 10;
+`
+
 function Loading() {
   return (
-    <LoadingWrapper>
-      <div></div>
-      <div></div>
-    </LoadingWrapper>
-  );
+    <React.Fragment>
+      <EnterLoading>
+        <LoadingWrapper>
+          <div></div>
+          <div></div>
+        </LoadingWrapper>
+      </EnterLoading>
+    </React.Fragment>
+  )
 }
 
 export default React.memo(Loading);

@@ -26,6 +26,7 @@ export const getBannerList = () => {
     getBannerRequest().then(data => {
       const action = changeBannerList(data.banners)
       dispatch(action)
+      dispatch(changeEnterLoading(false))
     }).catch(e => {
       console.error("获取轮播图出错: ", e)
     })
@@ -38,6 +39,7 @@ export const getRecommendList = () => {
     getRecommendListRequest().then(data => {
       const action = changeRecommendList(data.result)
       dispatch(action)
+      dispatch(changeEnterLoading(false))
     }).catch(e => {
       console.error("获取推荐列表出错: ", e);
     })

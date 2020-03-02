@@ -10,17 +10,39 @@ const SuspenseComponent = Component => props => {
     </Suspense>
   );
 };
+
+// 注释 webpackChunkName: "xxx" 可以用于指定 chunk 的名称，在输出文件时有用
 const RecommendComponent = lazy(() =>
-  import("../application/Recommend/index.jsx")
+  import(
+    /* webpackChunkName: 'recommend' */ "../application/Recommend/index.jsx"
+  )
 );
 const SongListComponent = lazy(() =>
-  import("../application/SongList/index.jsx")
+  import(
+    /* webpackChunkName: 'song-list' */ "../application/SongList/index.jsx"
+  )
 );
-const RankComponent = lazy(() => import("../application/Rank/index.jsx"));
-const DjRadioComponent = lazy(() => import("../application/DjRadio/index.jsx"));
-const SearchComponent = lazy(() => import("../application/Search/index.jsx"));
+const RankComponent = lazy(() =>
+  import(
+    /* webpackChunkName: 'rank' */ "../application/Rank/index.jsx"
+  )
+);
+const DjRadioComponent = lazy(() =>
+  import(
+    /* webpackChunkName: 'dj-radio' */ "../application/DjRadio/index.jsx"
+  )
+);
+const SearchComponent = lazy(() =>
+  import(
+    /* webpackChunkName: 'search' */ "../application/Search/index.jsx"
+  )
+);
 
-const DetailsComponent = lazy(() => import("../application/Details/index.jsx"));
+const DetailsComponent = lazy(() =>
+  import(
+    /* webpackChunkName: 'detail' */ "../application/Details/index.jsx"
+  )
+);
 
 export default function Routes() {
   return (

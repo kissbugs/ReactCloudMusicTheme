@@ -5,8 +5,21 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const resolve = dir => path.resolve(__dirname, dir);
 
 module.exports = {
-  entry: path.resolve(__dirname, "./src/index.js"),
+  // module: "development",
+  // devtool: "cheap-module-eval-source-map",
   devtool: 'inline-source-map',
+
+  entry: path.resolve(__dirname, "./src/index.js"),
+  devServer: {
+    publicPath: '/',
+    contentBase: path.resolve(__dirname, 'dist'),
+    // 用来显示路由地址正确显示
+    historyApiFallback: {
+      index: '/'
+    },
+    hot: true,
+    hotOnly: true
+  },
   resolve: {
     alias: {
       '@': resolve('src'),
@@ -15,6 +28,7 @@ module.exports = {
     },
     extensions: ['.js', '.jsx']
   },
+  
   module: {
     rules: [
       {
@@ -45,23 +59,17 @@ module.exports = {
       },
       {
         test: /\.s?css$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader'
+        ],
       },
     ]
   },
   output: {
     filename: 'index_bundle.js',
     path: path.resolve(__dirname, './dist')
-  },
-  devServer: {
-    publicPath: '/',
-    contentBase: path.resolve(__dirname, 'dist'),
-    // 用来显示路由地址正确显示
-    historyApiFallback: {
-      index: '/'
-    },
-    hot: true,
-    hotOnly: true
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -70,15 +78,19 @@ module.exports = {
     new CleanWebpackPlugin()
   ],
   // optimization: {
-  //   minimizer: [
-  //     new UglifyJsPlugin({
-  //       uglifyOptions: {
-  //         compress: {
-  //           drop_console: true
-  //         }
-  //       }
-  //     })
-  //   ]
+    // usedExports: true, // 如果模式是生产环境，usedExports 不需要配置
+    // minimizer: [
+    //   new UglifyJsPlugin({
+    //     uglifyOptions: {
+    //       compress: {
+    //         drop_console: true
+    //       }
+    //     }
+    //   })
+    // ]
+    // splitChunks: {
+    //   chunks: "all" // 所有的 chunks 代码公共的部分分离出来成为一个单独的文件
+    // }
   // }
 }
 

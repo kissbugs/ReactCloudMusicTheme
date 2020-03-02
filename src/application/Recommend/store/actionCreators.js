@@ -16,6 +16,11 @@ export const changeCategoryPlayList = (data) => ({
   data
 })
 
+export const changeEnterLoading = (data) => ({
+  type: actionTypes.CHANGE_ENTER_LOADING,
+  data
+});
+
 export const getBannerList = () => {
   return (dispatch) => {
     getBannerRequest().then(data => {
@@ -45,6 +50,7 @@ export const getCategoryPlayList = () => {
       // console.log('data: ', data);
       const action = changeCategoryPlayList(data.sub)
       dispatch(action)
+      dispatch(changeEnterLoading(false))
     }).catch(e => {
       console.error("获取歌单分类（流派）出错: ", e);
     })

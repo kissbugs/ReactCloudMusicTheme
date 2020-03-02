@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 
 import SlideCarousel from "../../components/slide_carousel/index.jsx";
 import * as actionTypes from "./store/actionCreators.js";
+import Loading from "../../basicModule/loading/index";
 import * as S from "./style.js";
 import * as Components from "./components";
 
@@ -69,9 +70,9 @@ const ThemeColor = [
   }
 ];
 
-const Recommend = props => {
-  // console.log("recommend_props-----: ", props);
-  const { bannerList, recommendList, categoryPlayList } = props;
+const Recommend = memo(({ ...props }) => {
+  console.log("recommend_props-----: ", props);
+  const { bannerList, recommendList, categoryPlayList, enterLoading } = props;
   const {
     getBannerListDataDispatch,
     getRecommendListDataDispatch,
@@ -97,15 +98,21 @@ const Recommend = props => {
         />
       )}
       {<Components.RecommendList recommendList={recommendList} />}
+      {enterLoading ? (
+        <S.EnterLoading>
+          <Loading></Loading>
+        </S.EnterLoading>
+      ) : null}
     </S.RecommendContainer>
   );
-};
+});
 
 const mapStateToProps = state => {
   return {
     bannerList: state.recommend.bannerList,
     recommendList: state.recommend.recomendList,
-    categoryPlayList: state.recommend.categoryPlayList
+    categoryPlayList: state.recommend.categoryPlayList,
+    enterLoading: state.recommend.enterLoading
   };
 };
 
@@ -117,6 +124,9 @@ const mapDispatchToProps = dispatch => {
     getRecommendListDataDispatch() {
       dispatch(actionTypes.getRecommendList());
     },
+    // changeEnterLoadingDispatch(data) {
+    //   dispatch(changeEnterLoading(data));
+    // },
     getCategotyPlayListDataDispatch() {
       dispatch(actionTypes.getCategoryPlayList());
     }

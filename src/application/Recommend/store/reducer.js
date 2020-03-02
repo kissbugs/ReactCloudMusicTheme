@@ -4,7 +4,8 @@ import produce from "immer"
 const initialState = {
   bannerList: [],
   recomendList: [],
-  categoryPlayList: []
+  categoryPlayList: [],
+  enterLoading: true
 }
 export default produce((draft, action) => {
   switch (action.type) {
@@ -14,5 +15,7 @@ export default produce((draft, action) => {
       draft.recomendList = action.data
     case actionTypes.CHANGE_CATEGORY_PLAY_LIST:
       draft.categoryPlayList = action.data
+    case actionTypes.CHANGE_ENTER_LOADING:
+      draft.enterLoading = action.data
   }
 }, initialState)

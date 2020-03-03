@@ -4,20 +4,19 @@
     align-items: center;
     justify-content: space-between;
     font-size: 14px;
-    padding: 0 10px;
-    .title {
-    }
+    padding: 0 10px 15px;
     .more_recommend {
     }
   }
   ul.recommend_list_box {
-    white-space: nowrap;
-    overflow-y: hidden;
-    overflow-x: scroll;
-    -webkit-overflow-scrolling: touch;
-    padding-left: 10px;
+    // white-space: nowrap;
+    // overflow-y: hidden;
+    // overflow-x: scroll;
+    // -webkit-overflow-scrolling: touch;
+    // padding-left: 10px;
     li {
-      margin: 10px 0 10px 10px;
+      // margin: 10px 0 10px 10px;
+      margin: 0 0 15px 2.5%;
       width: 30%;
       height: 100%;
       padding: 0;
@@ -26,12 +25,12 @@
       position: relative;
       display: inline-block;
       vertical-align: top;
-      &:first-child {
-        margin-left: 0;
-      }
-      &:last-child {
-        margin-right: 10px;
-      }
+      // &:first-child {
+      //   margin-left: 0;
+      // }
+      // &:last-child {
+      //   margin-right: 10px;
+      // }
       .play_count_box {
         position: absolute;
         font-size: 12px;

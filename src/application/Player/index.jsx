@@ -97,7 +97,13 @@ const Player = ({ ...props }) => {
             background: `#010101 linear-gradient(90deg, rgb(243, 190, 25) 0px, rgb(240, 248, 255) ${percentWidth}, transparent ${percentWidth}, transparent 100%)`
           }}
         >
-          <div className="song_time">{songDuration}</div>
+          <div
+            className={`song_time ${
+              !isAudioPlayPause ? "song_time_active" : ""
+            }`}
+          >
+            {songDuration}
+          </div>
           <div className={`play_status`} onClick={btnPlayClick}>
             {isAudioPlayPause ? (
               <i className="iconfont icon_play">&#xe668;</i>

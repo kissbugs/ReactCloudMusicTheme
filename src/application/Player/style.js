@@ -47,6 +47,7 @@ export const PlayerContainer = styled.div`
       }
       img{
         width: 60px;
+        height: 60px;
         border-radius: 50%;
         &.disco_play, &.disco_pause {
           animation: ${rotate} 10s infinite;
@@ -73,6 +74,9 @@ export const PlayerContainer = styled.div`
         padding: 0 10px 0 15px;
         -webkit-text-stroke: 3px;
         letter-spacing: 4px;
+      }
+      .song_time_active {
+        color: #e2174e;
       }
       .play_status {
         .icon_play, .icon_pause {

@@ -12,14 +12,14 @@ export default ({ ...props }) => {
     <div className="recommend_list_container">
       <div className="title_and_more">
         <div className="title">推荐歌单</div>
-        <div
+        {/* <div
           className="more_recommend"
           onClick={() => props.history.push("/songList")}
         >
           查看更多 »
-        </div>
+        </div> */}
       </div>
-      <ul className="recommend_list_box clear_scroll_bar">
+      <ul className="recommend_list_box">
         {recommendList.map((item, index) => (
           <li key={index}>
             <div className="play_count_box">

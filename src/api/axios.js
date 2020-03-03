@@ -1,18 +1,18 @@
 import axios from 'axios';
 import { ToastManager } from "../components/utils/toast/index.jsx";
-// var toast = null;
+var toast = null;
 
 export const baseApiUrl = "http://api.kissvon.cn"
 const axiosInstance = axios.create({
   baseURL: baseApiUrl
 })
-// let count = 0;
+let count = 0;
 axiosInstance.interceptors.request.use(config => {
   // 设置请求拦截器
-  // if (!toast) {
-  //   toast = ToastManager.showLoading("数据加载中...");
-  // }
-  // count++;
+  if (!toast) {
+    toast = ToastManager.showLoading("数据加载中...");
+  }
+  count++;
   return config;
 }, (_err) => {
   return Promise.reject(_err)
@@ -21,8 +21,8 @@ axiosInstance.interceptors.request.use(config => {
 axiosInstance.interceptors.response.use(
   res => {
     // 设置相应拦截器
-    // count--;
-    // cancel();
+    count--;
+    cancel();
     return res.data
   },
   _err => {
@@ -30,12 +30,12 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-// const cancel = () => {
-//   if (count == 0) {
-//     toast.cancel();
-//     count = 0;
-//     toast = null;
-//   }
-// }
+const cancel = () => {
+  if (count == 0) {
+    toast.cancel();
+    count = 0;
+    toast = null;
+  }
+}
 
 export { axiosInstance };

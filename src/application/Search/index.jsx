@@ -161,34 +161,36 @@ const Search = memo(({ ...props }) => {
     changeEnterLoadingDispatch(true);
   };
 
-  const songUrlBool= songUrl ? true : false;
+  const songUrlBool = songUrl ? true : false;
 
   return (
-    // bounceInDown
     <S.SearchContainer
       className={`animated ${
+        // bounceInDown
         window.location.pathname == "/search" ? "rollIn" : "rollOut"
       }`}
     >
-      <SearchSongInput
-        newSearchQuery={searchQuery}
-        setSongUrl={setSongUrl}
-        handleBack={handleBack}
-        handleSearchQuery={handleSearchQuery}
-        changeEnterLoadingDispatch={changeEnterLoadingDispatch}
-      />
-      {hotKeyWordsList.length > 0 && renderPopularSearch()}
-      <div
-        className="search_input_container clear_scroll_bar"
-        style={{
-          height: songUrlBool && "calc(85vh - 60px)"
-        }}
-      >
-        {/* {renderSearchSingers()} */}
-        {/* {renderSearchAlbum()} */}
-        {renderSearchSongs()}
+      <div style={{ position: "relative" }}>
+        <SearchSongInput
+          newSearchQuery={searchQuery}
+          setSongUrl={setSongUrl}
+          handleBack={handleBack}
+          handleSearchQuery={handleSearchQuery}
+          changeEnterLoadingDispatch={changeEnterLoadingDispatch}
+        />
+        {hotKeyWordsList.length > 0 && renderPopularSearch()}
+        <div
+          className="search_input_container clear_scroll_bar"
+          style={{
+            height: songUrlBool && "calc(85vh - 60px)"
+          }}
+        >
+          {/* {renderSearchSingers()} */}
+          {/* {renderSearchAlbum()} */}
+          {renderSearchSongs()}
+        </div>
+        {enterLoading ? <Loading></Loading> : null}
       </div>
-      {enterLoading ? <Loading></Loading> : null}
     </S.SearchContainer>
   );
 });

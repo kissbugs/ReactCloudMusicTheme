@@ -8,7 +8,7 @@ export const TopBarContainer = styled.div`
 `
 
 export const BarBox = styled.div`
-  background: #151618;
+  background: #1a1a1a;
   color: #fff;
   height: 50px;
   line-height: 50px;
@@ -18,6 +18,6 @@ export const BarBox = styled.div`
   padding: 0 10px;
   .lef_menu, .right_search {
     color: #ff9500;
-    font-size: 25px;
+    font-size: 20px;
   }
 `

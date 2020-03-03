@@ -8,8 +8,10 @@ import React, {
 } from "react";
 import { connect } from "react-redux";
 import * as actionTypes from "./store/actionCreators.js";
-import { debounce } from "../../api/helper";
+import { debounce, getSongUrl } from "../../api/helper";
 import Loading from "../../basicModule/loading/index";
+import Player from "../Player/index";
+
 import * as S from "./style.js";
 
 const Search = memo(({ ...props }) => {
@@ -28,6 +30,7 @@ const Search = memo(({ ...props }) => {
   } = props;
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [songUrl, setSongUrl] = useState("");
 
   useEffect(() => {
     if (!hotKeyWordsList.length && !searchQuery) {
@@ -60,6 +63,9 @@ const Search = memo(({ ...props }) => {
   //   if (!searchSuggestList || !searchSuggestList.length) return "";
   //   return <div className="render_search_singers">渲染歌单</div>;
   // };
+
+  console.warn("----liwei_setSongUrl", songUrl);
+
   const renderSearchSongs = () => {
     // 相关歌曲
     if (!searchResultSongsList || !searchResultSongsList.length) return "";
@@ -70,7 +76,11 @@ const Search = memo(({ ...props }) => {
           !("name" in song) ? (
             ""
           ) : (
-            <div className="search_songs" key={index}>
+            <div
+              className="search_songs"
+              key={index}
+              onClick={() => setSongUrl(getSongUrl(song.id))}
+            >
               <div>
                 <div className="song_name">{song.name}</div>
                 <div className="song_description">
@@ -78,7 +88,7 @@ const Search = memo(({ ...props }) => {
                   {` - ${song.album.name || `${song.name}`}`}
                 </div>
               </div>
-              <i className="iconfont lef_menu">&#xe609;</i>
+              <i className="iconfont icon_music">&#xe8b2;</i>
             </div>
           )
         )}
@@ -105,33 +115,40 @@ const Search = memo(({ ...props }) => {
     }
     // console.log("处理后的数据splitedHotKeyWordsList: ", splitedHotKeyWordsList);
     return (
-      <S.SopularSearchBox className="clear_scroll_bar" show={searchQuery}>
-        <div className="title">热门搜索</div>
-        <div className="popular_search_list">
-          {splitedHotKeyWordsList.map((item, index) => (
-            <ul className="single_search_list" key={index}>
-              {item.value.map((ele, ind) => (
-                <li key={ind} onClick={() => setSearchQuery(ele.searchWord)}>
-                  <div
-                    className={`list_index ${
-                      ele.originIndex < 4 ? "hot_song" : ""
-                    }`}
-                  >
-                    {ele.originIndex + 1}
-                  </div>
-                  <div className="search_content">
-                    <div className="song_name_box">
-                      <div className="song_name">{ele.searchWord}</div>
-                      <img src={ele.iconUrl} alt="" />
+      <React.Fragment>
+        <S.SopularSearchBox
+          className="clear_scroll_bar"
+          show={searchQuery}
+          songUrlBool={songUrl ? true : false}
+        >
+          <div className="title">热门搜索</div>
+          <div className="popular_search_list">
+            {splitedHotKeyWordsList.map((item, index) => (
+              <ul className="single_search_list" key={index}>
+                {item.value.map((ele, ind) => (
+                  <li key={ind} onClick={() => setSearchQuery(ele.searchWord)}>
+                    <div
+                      className={`list_index ${
+                        ele.originIndex < 4 ? "hot_song" : ""
+                      }`}
+                    >
+                      {ele.originIndex + 1}
                     </div>
-                    <div className="song_description">{ele.content}</div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          ))}
-        </div>
-      </S.SopularSearchBox>
+                    <div className="search_content">
+                      <div className="song_name_box">
+                        <div className="song_name">{ele.searchWord}</div>
+                        <img src={ele.iconUrl} alt="" />
+                      </div>
+                      <div className="song_description">{ele.content}</div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            ))}
+          </div>
+        </S.SopularSearchBox>
+        {songUrl && <Player songUrl={songUrl} />}
+      </React.Fragment>
     );
   };
 
@@ -139,11 +156,12 @@ const Search = memo(({ ...props }) => {
     console.warn("q: ", q);
     setSearchQuery(q);
     if (!q) return;
-    // getSuggestListDispatch(q);
-    changeEnterLoadingDispatch(true);
     getSearchSuggestListDispatch(q);
     getSearchResultSongsListDispatch(q);
+    changeEnterLoadingDispatch(true);
   };
+
+  const songUrlBool= songUrl ? true : false;
 
   return (
     // bounceInDown
@@ -154,11 +172,18 @@ const Search = memo(({ ...props }) => {
     >
       <SearchSongInput
         newSearchQuery={searchQuery}
+        setSongUrl={setSongUrl}
         handleBack={handleBack}
         handleSearchQuery={handleSearchQuery}
+        changeEnterLoadingDispatch={changeEnterLoadingDispatch}
       />
       {hotKeyWordsList.length > 0 && renderPopularSearch()}
-      <div className="search_input_container clear_scroll_bar">
+      <div
+        className="search_input_container clear_scroll_bar"
+        style={{
+          height: songUrlBool && "calc(85vh - 60px)"
+        }}
+      >
         {/* {renderSearchSingers()} */}
         {/* {renderSearchAlbum()} */}
         {renderSearchSongs()}
@@ -169,7 +194,13 @@ const Search = memo(({ ...props }) => {
 });
 
 const SearchSongInput = memo(({ ...props }) => {
-  const { newSearchQuery, handleBack, handleSearchQuery } = props;
+  const {
+    setSongUrl,
+    newSearchQuery,
+    handleBack,
+    handleSearchQuery,
+    changeEnterLoadingDispatch
+  } = props;
 
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -184,6 +215,7 @@ const SearchSongInput = memo(({ ...props }) => {
     if (newSearchQuery !== searchQuery) {
       curSearchQuery = newSearchQuery;
       queryRef.current.value = newSearchQuery;
+      changeEnterLoadingDispatch(true);
     }
     setSearchQuery(curSearchQuery);
   }, [newSearchQuery]);
@@ -200,10 +232,12 @@ const SearchSongInput = memo(({ ...props }) => {
   const handleInputChange = e => {
     const value = e.target.value;
     setSearchQuery(value);
+    changeEnterLoadingDispatch(true);
   };
 
   const clearSearchQuery = () => {
     setSearchQuery("");
+    setSongUrl("");
     queryRef.current.value = "";
     queryRef.current.focus();
   };
@@ -219,7 +253,7 @@ const SearchSongInput = memo(({ ...props }) => {
         />
         {searchQuery && (
           <i className="iconfont icon_close" onClick={clearSearchQuery}>
-            &#xe609;
+            &#xe65c;
           </i>
         )}
       </div>

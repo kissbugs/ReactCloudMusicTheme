@@ -11,7 +11,7 @@ export const SearchContainer = styled.div`
   z-index: 100;
   transform-origin: right bottom;
   overflow: hidden;
-  background: #151618;
+  background: #1a1a1a;
   @media screen and (min-width: 1024px) {
     max-width: 500px;
     margin: 0 auto;
@@ -43,6 +43,10 @@ export const SearchContainer = styled.div`
             color: #2288e4;
           }
         }
+      }
+      .icon_music {
+        color: #e61b58;
+        font-size: 20px;
       }
     }
   }
@@ -81,6 +85,7 @@ export const SearchSongInputContainer = styled.div`
     }
     i {
       margin-left: -35px;
+      color: #5d5d5d;
     }
   }
 `
@@ -90,6 +95,7 @@ export const IconBack = styled.div`
 export const SopularSearchBox = styled.div`
   margin: 0 15px;
   height: calc(95vh - 60px);
+  /* height: ${props => props.songUrlBool ? "calc(85vh - 60px)" : "calc(95vh - 60px)"}; */
   overflow-x: hidden;
   overflow-y: scroll;
   display: ${props => props.show ? "none" : null};
@@ -123,6 +129,7 @@ export const SopularSearchBox = styled.div`
               overflow: hidden;
               font-size: 14px;
               padding-bottom: 10px;
+              line-height: 1.3em;
             }
             img {
               height: 14px;

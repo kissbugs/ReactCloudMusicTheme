@@ -1,6 +1,7 @@
 import React, { memo } from "react";
 import LazyLoad from "react-lazyload";
 import { playCount } from "../../../api/helper.js";
+import music_2 from "../../../assets/images/music_2.png";
 import "./RecommendList.scss";
 
 export default ({ ...props }) => {
@@ -18,23 +19,18 @@ export default ({ ...props }) => {
           查看更多 »
         </div>
       </div>
-      <ul className="recommend_list_box">
+      <ul className="recommend_list_box clear_scroll_bar">
         {recommendList.map((item, index) => (
           <li key={index}>
             <div className="play_count_box">
               <div className="play_count">
-                <div className="iconfont icon_listen">&#xe609;</div>
+                <i className="iconfont icon_listen">&#xe8b2;</i>
                 {playCount(item.playCount)}
               </div>
             </div>
             <LazyLoad
               placeholder={
-                <img
-                  width="100%"
-                  height="100%"
-                  src={require("../../../assets/images/music.png")}
-                  alt="music"
-                />
+                <img width="100%" height="100%" src={music_2} alt="music" />
               }
             >
               <img

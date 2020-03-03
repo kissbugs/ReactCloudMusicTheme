@@ -9,10 +9,10 @@ export default () => {
       name: "每日推荐",
       url: "/recommend"
     },
-    {
-      name: "歌单",
-      url: "/songList"
-    },
+    // {
+    //   name: "歌单",
+    //   url: "/songList"
+    // },
     {
       name: "排行榜",
       url: "/rank"

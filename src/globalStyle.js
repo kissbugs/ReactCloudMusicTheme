@@ -30,7 +30,8 @@ export const GlobalStyle = createGlobalStyle`
 	}
 	html, body{
 		/* background: #f2f3f4;; */
-		background: #151618;;
+		/* background: #151618;; */
+		background: #1a1a1a;;
 	}
 	ol, ul {
 		list-style: none;

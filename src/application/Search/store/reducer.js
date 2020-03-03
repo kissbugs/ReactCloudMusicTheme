@@ -5,7 +5,7 @@ const initialState = {
   hotKeyWordsList: [],
   searchSuggestList: [],
   searchResultSongsList: [],
-  enterLoading: []
+  enterLoading: false
 }
 export default produce((draft, action) => {
   switch (action.type) {

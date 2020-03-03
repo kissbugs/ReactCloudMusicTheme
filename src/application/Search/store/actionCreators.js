@@ -27,7 +27,7 @@ export const getHotKeyWords = () => {
       // console.log('getHotKeyWordsRequest_data: ', data);
       const action = changeHotKeyWords(data.data)
       dispatch(action)
-      dispatch(changeEnterLoading(false))
+      // dispatch(changeEnterLoading(false))
     }).catch(e => {
       console.error("获取热搜关键词出错：", e);
     })
@@ -36,12 +36,12 @@ export const getHotKeyWords = () => {
 export const getSearchSuggestList = (query) => {
   return (dispatch) => {
     getSuggestListRequest(query).then(data => {
-      console.error('getSuggestList_data: ', data);
+      console.log('getSuggestList_data: ', data);
       if (!data) return;
       let res = data.result || [];
       const action = changeSuggestList(res)
       dispatch(action)
-      dispatch(changeEnterLoading(false))
+      // dispatch(changeEnterLoading(false))
     }).catch(e => {
       console.error("获取搜索出错：", e);
     })
@@ -50,7 +50,7 @@ export const getSearchSuggestList = (query) => {
 export const getSearchResultSongList = (query) => {
   return (dispatch) => {
     getResultSongsListRequest(query).then(data => {
-      console.warn('getSearchResultSongList_data: ', data);
+      // console.log('getSearchResultSongList_data: ', data);
       if (!data) return;
       let res = data.result.songs || [];
       const action = changeResultSongList(res)

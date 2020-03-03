@@ -31,6 +31,8 @@ const Search = memo(({ ...props }) => {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [songUrl, setSongUrl] = useState("");
+  const [songId, setSongId] = useState("");
+  const [back, setBack] = useState(true)
 
   useEffect(() => {
     if (!hotKeyWordsList.length && !searchQuery) {
@@ -41,7 +43,10 @@ const Search = memo(({ ...props }) => {
   }, [!searchQuery]);
 
   const handleBack = useCallback(() => {
-    props.history.goBack();
+    setBack(false);
+    setTimeout(() => {
+      props.history.goBack();
+    }, 300);
   }, []);
 
   useEffect(() => {
@@ -63,9 +68,6 @@ const Search = memo(({ ...props }) => {
   //   if (!searchSuggestList || !searchSuggestList.length) return "";
   //   return <div className="render_search_singers">渲染歌单</div>;
   // };
-
-  console.warn("----liwei_setSongUrl", songUrl);
-
   const renderSearchSongs = () => {
     // 相关歌曲
     if (!searchResultSongsList || !searchResultSongsList.length) return "";
@@ -77,7 +79,10 @@ const Search = memo(({ ...props }) => {
             ""
           ) : (
             <div
-              className="search_songs"
+              className={`search_songs ${
+                songUrl == getSongUrl(song.id) ? "song_active" : ""
+              }`}
+              data-id={song.id}
               key={index}
               onClick={() => setSongUrl(getSongUrl(song.id))}
             >
@@ -167,7 +172,7 @@ const Search = memo(({ ...props }) => {
     <S.SearchContainer
       className={`animated ${
         // bounceInDown
-        window.location.pathname == "/search" ? "rollIn" : "rollOut"
+        back ? "bounceInDown" : "rollOut"
       }`}
     >
       <div style={{ position: "relative" }}>

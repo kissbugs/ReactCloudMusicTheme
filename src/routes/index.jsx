@@ -18,6 +18,9 @@ const RecommendComponent = lazy(() =>
     /* webpackChunkName: 'recommend' */ "../application/Recommend/index.jsx"
   )
 );
+const AlbumsComponent = lazy(() =>
+  import(/* webpackChunkName: 'albums' */ "../application/Albums/index.jsx")
+);
 const SongListComponent = lazy(() =>
   import(
     /* webpackChunkName: 'song-list' */ "../application/SongList/index.jsx"
@@ -47,6 +50,7 @@ export default function Routes() {
           path="/recommend"
           component={SuspenseComponent(RecommendComponent)}
         />
+        <Route path="/albums" component={SuspenseComponent(AlbumsComponent)} />
         <Route
           path="/songList"
           component={SuspenseComponent(SongListComponent)}

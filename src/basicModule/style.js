@@ -17,7 +17,12 @@ export const BarBox = styled.div`
   justify-content: space-between;
   padding: 0 10px;
   .lef_menu, .right_search {
+    cursor: pointer;
     color: #ff9500;
+    width: 50px;
     font-size: 20px;
+  }
+  .right_search {
+    text-align: right;
   }
 `

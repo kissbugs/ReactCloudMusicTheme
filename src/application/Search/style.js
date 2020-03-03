@@ -44,6 +44,12 @@ export const SearchContainer = styled.div`
           }
         }
       }
+      .song_active {
+        .song_name, .song_description, .song_description span {
+          color: #e61b58;
+          font-weight: 700;
+        }
+      }
       .icon_music {
         color: #e61b58;
         font-size: 20px;
@@ -91,6 +97,7 @@ export const SearchSongInputContainer = styled.div`
 `
 export const IconBack = styled.div`
   padding: 0 10px;
+  cursor: pointer;
 `
 export const SopularSearchBox = styled.div`
   margin: 0 15px;

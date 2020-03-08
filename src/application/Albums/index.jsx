@@ -12,6 +12,7 @@ const Albums = memo(({ ...props }) => {
   const { albumList, enterLoading } = props;
   const { getAlbumsListDataDispatch } = props;
   const [songUrl, setSongUrl] = useState("");
+  const [currIndex, setCurrIndex] = useState("");
 
   console.log("albumList: ", albumList);
 
@@ -34,6 +35,12 @@ const Albums = memo(({ ...props }) => {
       <div className="albums_main_description">
         <div className="album_main_picture">
           <img src={albumList.coverImgUrl} alt="" />
+          {albumList.creator && (
+            <div className="nick_name_box">
+              <img src={albumList.creator.avatarUrl} alt="" />
+              <div className="nickname">{albumList.creator.nickname}</div>
+            </div>
+          )}
           <div className="album_description">{albumList.description}</div>
         </div>
       </div>
@@ -48,13 +55,23 @@ const Albums = memo(({ ...props }) => {
       return acc + `${cur.name}/`;
     }, "");
 
+  const handleSongList = (list, index) => {
+    setSongUrl(getSongUrl(list.id));
+    // setCurrIndex(index);
+  };
+
   const renderAlbumsLists = () => {
     return (
       <div className="albums_lists_box">
         <div className="play_list_entrance">
           <div className="left_play_number">
-            {/* <i className="iconfont icon_play">&#xe668;</i> */}
-            <i className="iconfont icon_pause">&#xe607;</i>
+            <i
+              className="iconfont icon_play"
+              onClick={() => setSongUrl(getSongUrl(albumList.tracks[0].id))}
+            >
+              &#xe668;
+            </i>
+            {/* <i className="iconfont icon_pause">&#xe607;</i> */}
             <span>{`共${albumList.tracks.length}首`}</span>
           </div>
           {/* <div className="right_play_menu">
@@ -70,7 +87,7 @@ const Albums = memo(({ ...props }) => {
                 className={`${
                   songUrl == getSongUrl(list.id) ? "song_active" : ""
                 }`}
-                onClick={() => setSongUrl(getSongUrl(list.id))}
+                onClick={() => handleSongList(list, index)}
               >
                 <span>{index + 1}</span>
                 <div className="li_box">
@@ -104,7 +121,13 @@ const Albums = memo(({ ...props }) => {
         {albumList.tracks && renderAlbumsLists()}
       </div>
       {enterLoading ? <Loading></Loading> : null}
-      {songUrl && <Player songUrl={songUrl} />}
+      {songUrl && (
+        <Player
+          songUrl={songUrl}
+          // playList={albumList.tracks}
+          // currentIndex={currIndex}
+        />
+      )}
     </S.AlbumsContainer>
   );
 });

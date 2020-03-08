@@ -26,7 +26,7 @@ export const GlobalStyle = createGlobalStyle`
 		display: block;
 	}
 	body {
-		line-height: 1;
+		line-height: 1.3;
 	}
 	html, body{
 		/* background: #f2f3f4;; */

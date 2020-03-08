@@ -37,16 +37,29 @@ export const AlbumsContainer = styled.div`
     .albums_main_description {
       margin: 0 15px;
       .album_main_picture {
-        padding: 20px 15px 15px;
+        padding: 20px 15px 0;
         img {
           width: 200px;
           border-radius: 10px;
           margin: 0 auto;
           display: block;
         }
+        .nick_name_box {
+          display: flex;
+          align-items: center;
+          img {
+            width: 40px;
+            border-radius: 50px;
+            margin: 0;
+          }
+          .nickname {
+            color: #707070;
+            padding-left: 20px;
+          }
+        }
         .album_description {
-          color: #fff;
-          padding: 20px 0;
+          color: #7b7b7b;
+          padding: 10px 0;
           line-height: 1.5em;
         }
       }
@@ -120,6 +133,7 @@ export const AlbumsContainer = styled.div`
               padding-left: 10px;
               .title {
                 color: #fff;
+                line-height: 1.3em;
               }
               .description {
                 color: #828282;
@@ -131,12 +145,11 @@ export const AlbumsContainer = styled.div`
           }
         }
         .song_active {
-          span , 
-          .li_box .album_info {
-            .title, .description {
-              color: #e2174e;
-              font-weight: 700;
-            }
+          span, 
+          .li_box .album_info .title, 
+          .li_box .album_info .description{
+            color: #e2174e;
+            font-weight: 700;
           }
         }
       }

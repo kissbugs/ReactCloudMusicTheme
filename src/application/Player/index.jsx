@@ -6,11 +6,14 @@ import disco from "../../assets/images/disc.png";
 
 const Player = ({ ...props }) => {
   const { songUrl } = props;
+  // const { playList, currentIndex } = props;
+  // console.log("Player: ", props);
   const audioRef = useRef();
   const [songDuration, setSongDuration] = useState("00:00");
   const [audioPlayPauseClass, setAudioPlayPauseClass] = useState("");
   const [countShowTime, setCountShowTime] = useState("");
   const [percentWidth, setPercentWidth] = useState(0);
+  // const [currentPlayIndex, setCurrentPlayIndex] = useState(currentIndex);
 
   let isAudioPlayPause =
     !audioPlayPauseClass || audioPlayPauseClass == "btn-pause";
@@ -31,8 +34,27 @@ const Player = ({ ...props }) => {
     audioRef.current.play();
   }, [songUrl]);
 
+  const handleLoop = () => {
+    audioRef.current.currentTime = 0;
+    audioRef.current.play();
+  };
+
+  // const handleNext = () => {
+  //   // TODO:
+  //   if (playList.length == 1) {
+  //     handleLoop();
+  //     return;
+  //   }
+  //   let index = currentIndex + 1;
+  //   console.log('index: ', index);
+  //   setSongUrl(getSongUrl(list.id));
+  //   if (index === playList.length) index = 0;
+  // };
+
   const onEnded = e => {
-    setAudioPlayPauseClass("btn-pause");
+    audioRef.current.play();
+    // setAudioPlayPauseClass("btn-pause");
+    // handleNext();
   };
 
   const onPlay = e => {

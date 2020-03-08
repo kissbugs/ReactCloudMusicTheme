@@ -59,7 +59,7 @@ export const AlbumsContainer = styled.div`
         }
         .album_description {
           color: #7b7b7b;
-          padding: 10px 0;
+          padding: 15px 0;
           line-height: 1.5em;
         }
       }

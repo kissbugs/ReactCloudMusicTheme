@@ -5,10 +5,12 @@ import { combineReducers } from "redux";
 // import { reducer as detailsReducer} from "../application/Details/store/index""
 import { reducer as recommendReducer } from "../application/Recommend/store/index";
 import { reducer as searchReducer } from "../application/Search/store/index";
+import { reducer as albumsReducer } from "../application/Albums/store/index";
 
 const reducer = combineReducers({
   recommend: recommendReducer,
-  search: searchReducer
+  search: searchReducer,
+  albums: albumsReducer,
 })
 
 export default reducer;

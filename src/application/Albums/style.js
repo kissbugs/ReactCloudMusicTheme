@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 import styled from "styled-components"
 
 export const AlbumsContainer = styled.div`
@@ -22,7 +23,7 @@ export const AlbumsContainer = styled.div`
     cursor: pointer;
     padding: 0 15px;
     i {
-      color: #f0bf31;
+      color: #ffdc2c;
       font-size: 20px;
     }
     .title {
@@ -34,7 +35,7 @@ export const AlbumsContainer = styled.div`
     height: calc(100vh - 50px);
     overflow-y: scroll;
     .albums_main_description {
-      margin: 0 15px 10px;
+      margin: 0 15px;
       .album_main_picture {
         padding: 20px 15px 15px;
         img {
@@ -56,21 +57,27 @@ export const AlbumsContainer = styled.div`
         display: flex;
         align-items: center;
         justify-content: space-between;
+        position: sticky;
+        top: 0;
+        background: #424242;
+        padding: 10px 0 10px 10px;
+        border-radius: 0px 0 6px 6px;
+        z-index: 1;
         .left_play_number {
           display: flex;
           align-items: center;
           .icon_play, .icon_pause  {
-            color: #f0bf31;
+            color: #ffdc2c;
             font-size: 30px;
           }
           span {
-            color: #828282;
+            color: #9c9a9a;
             padding-left: 10px;
           }
         }
         .right_play_menu {
           .lef_menu {
-            color: #f0bf31;
+            color: #ffdc2c;
             font-size: 30px;
           }
         }
@@ -80,30 +87,62 @@ export const AlbumsContainer = styled.div`
         li {
           display: flex;
           align-items: center;
-          margin-bottom: 15px;
-          border-bottom: 1px dashed #5d5d5d;
-          padding-bottom: 15px;
           &:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-          }
-          img {
-            width: 50px;
-            border-radius: 8px;
-          }
-          .album_info {
-            padding-left: 10px;
-            .title {
-              color: #fff;
+            span {
+              margin-bottom: 0;
             }
-            .description {
-              color: #828282;
-              font-size: 12px;
-              padding-top: 10px;
+            .li_box {
+              margin-bottom: 0;
+              border-bottom: none;
+              padding-bottom: 0;
+            }
+          }
+          span {
+            color: #828282;
+            padding: 0 15px 0 5px;
+            font-size: 18px;
+            margin-bottom: 30px;
+          }
+          .li_box {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed #5d5d5d;
+            padding-bottom: 15px;
+            width: 100%;
+            img {
+              width: 50px;
+              border-radius: 8px;
+              opacity: 0.65;
+            }
+            .album_info {
+              padding-left: 10px;
+              .title {
+                color: #fff;
+              }
+              .description {
+                color: #828282;
+                font-size: 12px;
+                padding-top: 10px;
+                line-height: 1.3em;
+              }
+            }
+          }
+        }
+        .song_active {
+          span , 
+          .li_box .album_info {
+            .title, .description {
+              color: #e2174e;
+              font-weight: 700;
             }
           }
         }
       }
     }
+  }
+  .albums_container_song {
+    height: calc(92vh - 50px);
   }
 `

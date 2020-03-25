@@ -1,35 +1,47 @@
-import React, { memo } from "react";
+import React, { memo, useEffect } from "react";
 import * as S from "./style.js";
-import Swiper from "react-id-swiper";
+import Swiper from "swiper";
 import "swiper/css/swiper.css";
 
-
-const AutoplayCarousel = memo(({bannerList}) => {
-  const params = {
-    spaceBetween: 30,
-    centeredSlides: true,
-    autoplay: {
-      delay: 3000,
-      disableOnInteraction: false
-    },
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true
+const AutoplayCarousel = memo(({ bannerList }) => { 
+  useEffect(() => {
+    if (bannerList.length) {
+      new Swiper(".slider-container", {
+        loop: true,
+        // autoplay: {
+        //   delay: 5000,
+        //   disableOnInteraction: false
+        // },
+        pagination: {
+          el: ".swiper-pagination"
+        }
+      });
     }
-    // navigation: {
-    //   nextEl: ".swiper-button-next",
-    //   prevEl: ".swiper-button-prev"
-    // }
-  };
+  }, []);
   return (
-    <Swiper {...params}>
-      {bannerList.map((list, index) => (
-        <img src={list.imageUrl} alt="" key={index} />
-      ))}
-    </Swiper>
+    <div className="slide_carousel_container">
+      <div className="slider-container">
+        <div className="swiper-wrapper">
+          {bannerList.map(slider => (
+            <div className="swiper-slide" key={slider.imageUrl}>
+              <div className="slider-nav">
+                <img
+                  src={slider.imageUrl}
+                  width="100%"
+                  height="100%"
+                  alt="推荐"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="swiper-pagination"></div>
+      </div>
+    </div>
   );
 });
-const slideCarousel = props => {
+
+const SlideCarousel = props => {
   const { bannerList } = props;
   if (!bannerList || bannerList.length <= 0) return null;
   return (
@@ -39,4 +51,4 @@ const slideCarousel = props => {
   );
 };
 
-export default slideCarousel;
+export default SlideCarousel;

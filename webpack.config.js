@@ -63,7 +63,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, './public/index.html')
+      template: path.resolve(__dirname, './public/index.html'),
+      favicon: "./src/assets/images/favicon.ico" //favicon.ico文件路径
     }),
     new CleanWebpackPlugin()
   ],

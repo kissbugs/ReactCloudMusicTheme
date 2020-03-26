@@ -8,10 +8,10 @@ const AutoplayCarousel = memo(({ bannerList }) => {
     if (bannerList.length) {
       new Swiper(".slider-container", {
         loop: true,
-        // autoplay: {
-        //   delay: 5000,
-        //   disableOnInteraction: false
-        // },
+        autoplay: {
+          delay: 5000,
+          disableOnInteraction: false
+        },
         pagination: {
           el: ".swiper-pagination"
         }

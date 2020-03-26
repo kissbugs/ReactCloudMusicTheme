@@ -22,6 +22,9 @@ export const BarBox = styled.div`
     width: 50px;
     font-size: 20px;
   }
+  img {
+    width: 60px;
+  }
   .right_search {
     text-align: right;
   }

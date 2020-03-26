@@ -73,33 +73,53 @@ const ThemeColor = [
 
 const Recommend = memo(({ ...props }) => {
   console.log("recommend_props-----: ", props);
-  const { bannerList, recommendList, categoryPlayList, enterLoading } = props;
+  const {
+    bannerList,
+    recommendList,
+    newSongList,
+    topNewSongList,
+    categoryPlayList,
+    enterLoading
+  } = props;
   const {
     getBannerListDataDispatch,
     getRecommendListDataDispatch,
+    getNewSongListDataDispatch,
+    getTopNewSongListDataDispatch,
     getCategotyPlayListDataDispatch
   } = props;
 
   useEffect(() => {
-    // if (!bannerList) {
-    getBannerListDataDispatch();
-    getRecommendListDataDispatch(6);
-    // getCategotyPlayListDataDispatch();
+    if (!bannerList.length) {
+      getBannerListDataDispatch();
+    }
+    if (!recommendList.length) {
+      getRecommendListDataDispatch(5);
+    }
+    if (!newSongList.length) {
+      getNewSongListDataDispatch();
+    }
+    if (!topNewSongList.length) {
+      getTopNewSongListDataDispatch(0);
+    }
+    // if (!categoryPlayList.length) {
+    //   getCategotyPlayListDataDispatch();
     // }
-  }, []);
+  }, [bannerList, recommendList, newSongList, topNewSongList]);
 
-  return (
+  return enterLoading ? (
+    <Loading />
+  ) : (
     <S.RecommendContainer>
       <SlideCarousel bannerList={bannerList} />
-      {/* {categoryPlayList.length > 0 && (
-        // 歌曲流派 · 歌单分类
-        <Components.CategoryPlaylist
-          categoryPlayList={categoryPlayList}
-          ThemeColor={ThemeColor}
-        />
-      )} */}
-      {<Components.RecommendList {...props} />}
-      {enterLoading ? <Loading></Loading> : null}
+      {/* 歌曲流派 · 歌单分类 */}
+      {/* <Components.CategoryPlaylist
+        categoryPlayList={categoryPlayList}
+        ThemeColor={ThemeColor}
+      /> */}
+      <Components.RecommendList recommendList={recommendList} />
+      <Components.NewSongList newSongList={newSongList} />
+      <Components.TopNewSongList topNewSongList={topNewSongList} />
     </S.RecommendContainer>
   );
 });
@@ -108,7 +128,9 @@ const mapStateToProps = state => {
   return {
     bannerList: state.recommend.bannerList,
     recommendList: state.recommend.recomendList,
-    categoryPlayList: state.recommend.categoryPlayList,
+    newSongList: state.recommend.newSongList,
+    topNewSongList: state.recommend.topNewSongList,
+    // categoryPlayList: state.recommend.categoryPlayList,
     enterLoading: state.recommend.enterLoading
   };
 };
@@ -121,6 +143,12 @@ const mapDispatchToProps = dispatch => {
     getRecommendListDataDispatch(query) {
       dispatch(actionTypes.getRecommendList(query));
     },
+    getNewSongListDataDispatch() {
+      dispatch(actionTypes.getNewSongList());
+    },
+    getTopNewSongListDataDispatch(query) {
+      dispatch(actionTypes.getTopNewSongList(query));
+    }
     // changeEnterLoadingDispatch(data) {
     //   dispatch(changeEnterLoading(data));
     // },

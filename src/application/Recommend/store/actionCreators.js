@@ -1,6 +1,9 @@
 import * as actionTypes from "./constants"
 import {
-  getBannerRequest, getRecommendListRequest,
+  getBannerRequest, 
+  getRecommendListRequest, 
+  getNewSongRequest, 
+  getTopNewSongRequest,
   getCategoryPlayListRequest
 } from "../../../api/request"
 
@@ -11,6 +14,16 @@ export const changeBannerList = (data) => ({
 
 export const changeRecommendList = (data) => ({
   type: actionTypes.CHANGE_RECOMMEND_LIST,
+  data
+});
+
+export const changeNewSongList = (data) => ({
+  type: actionTypes.CHANGE_RECOMMEND_NEW_SONG,
+  data
+});
+
+export const changeTopNewSongList = (data) => ({
+  type: actionTypes.CHANGE_RECOMMEND_TOP_NEW_SONG,
   data
 });
 
@@ -49,15 +62,41 @@ export const getRecommendList = (query) => {
   }
 }
 
-export const getCategoryPlayList = () => {
+export const getNewSongList = () => {
   return (dispatch) => {
-    getCategoryPlayListRequest().then(data => {
-      // console.log('data: ', data);
-      const action = changeCategoryPlayList(data.sub)
+    getNewSongRequest().then(data => {
+      console.log('推荐新音乐: ', data);
+      const action = changeNewSongList(data.result)
       dispatch(action)
       dispatch(changeEnterLoading(false))
     }).catch(e => {
-      console.error("获取歌单分类（流派）出错: ", e);
+      console.error("获取推荐新音乐列表出错: ", e);
     })
   }
 }
+
+export const getTopNewSongList = (query) => {
+  return (dispatch) => {
+    getTopNewSongRequest(query).then(data => {
+      console.log('新歌速递: ', data);
+      const action = changeTopNewSongList(data.data)
+      dispatch(action)
+      dispatch(changeEnterLoading(false))
+    }).catch(e => {
+      console.error("获取新歌速递列表出错: ", e);
+    })
+  }
+}
+
+// export const getCategoryPlayList = () => {
+//   return (dispatch) => {
+//     getCategoryPlayListRequest().then(data => {
+//       // console.log('data: ', data);
+//       const action = changeCategoryPlayList(data.sub)
+//       dispatch(action)
+//       dispatch(changeEnterLoading(false))
+//     }).catch(e => {
+//       console.error("获取歌单分类（流派）出错: ", e);
+//     })
+//   }
+// }

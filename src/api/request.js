@@ -30,6 +30,16 @@ export const getSingerListRequest = (category, alpha, count) => {
   );
 };
 
+// 推荐新音乐
+export const getNewSongRequest = () => {
+  return axiosInstance.get(`/personalized/newsong`);
+};
+
+// 新歌速递
+export const getTopNewSongRequest = id => {
+  return axiosInstance.get(`top/song?type=${id}`);
+};
+
 // 获取排行榜列表
 export const getRankListRequest = () => {
   return axiosInstance.get(`/toplist/detail`);

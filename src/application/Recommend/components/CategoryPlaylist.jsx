@@ -2,7 +2,6 @@ import React, { useCallback } from "react";
 import "./CategoryPlaylist.scss";
 
 export default ({ ...props }) => {
-  // console.log("----categoryPlayList: ", props);
   const { categoryPlayList, ThemeColor } = props;
 
   const handleGenre = useCallback(() => {

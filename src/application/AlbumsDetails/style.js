@@ -12,7 +12,7 @@ export const AlbumsContainer = styled.div`
   transform-origin: right bottom;
   overflow: hidden;
   background: #1a1a1a;
-  .kdoPsW {
+  .call_back_box {
     margin: 0 15px;
   }
   .albums_container {

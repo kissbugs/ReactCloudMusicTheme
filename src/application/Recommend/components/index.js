@@ -1,7 +1,11 @@
-import CategoryPlaylist from "./CategoryPlaylist.jsx";
-import RecommendList from "./RecommendList.jsx";
+import CategoryPlaylist from "./CategoryPlaylist";
+import RecommendList from "./RecommendList";
+import NewSongList from "./NewSongList";
+import TopNewSongList from "./TopNewSongList";
 
 export {
   CategoryPlaylist,
-  RecommendList
+  RecommendList,
+  NewSongList,
+  TopNewSongList
 };

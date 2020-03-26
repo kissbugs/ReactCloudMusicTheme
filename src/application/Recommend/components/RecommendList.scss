@@ -6,13 +6,14 @@
     font-size: 14px;
     padding: 0 10px 15px;
     .more_recommend {
+      color: #999;
     }
   }
   ul.recommend_list_box {
-    white-space: nowrap;
-    overflow-y: hidden;
-    overflow-x: scroll;
-    -webkit-overflow-scrolling: touch;
+    // white-space: nowrap;
+    // overflow-y: hidden;
+    // overflow-x: scroll;
+    // -webkit-overflow-scrolling: touch;
     padding-left: 10px;
     li {
       @media screen and (min-width: 1024px) {
@@ -34,35 +35,31 @@
       position: relative;
       display: inline-block;
       vertical-align: top;
-      // &:first-child {
-      //   margin-left: 0;
-      // }
-      // &:last-child {
-      //   margin-right: 10px;
-      // }
-      .play_count_box {
-        position: absolute;
-        font-size: 12px;
-        right: 5px;
-        top: 5px;
-        border: 1px solid rgba(0, 0, 0, 0.4);
-        border-radius: 50px;
-        padding: 2px 5px;
-        background: rgba(0, 0, 0, 0.4);
-        color: #fff;
-        box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
-        .play_count {
-          display: flex;
-          align-items: center;
+      .count_img_box {
+        position: relative;
+        .play_count_box {
+          position: absolute;
           font-size: 12px;
-          .icon_listen {
-            padding-right: 3px;
+          right: 5px;
+          bottom: 10px;
+          border-radius: 50px;
+          padding: 2px 5px;
+          background: rgba(0, 0, 0, 0.65);
+          color: #fff;
+          box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
+          .play_count {
+            display: flex;
+            align-items: center;
             font-size: 12px;
+            .icon_listen {
+              padding-right: 3px;
+              font-size: 12px;
+            }
           }
         }
-      }
-      img {
-        width: 100%;
+        img {
+          width: 100%;
+        }
       }
       .name {
         font-size: 12px;

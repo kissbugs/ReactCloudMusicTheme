@@ -9,7 +9,7 @@ import React, {
 import { connect } from "react-redux";
 import * as actionTypes from "./store/actionCreators.js";
 import { debounce, getSongUrl } from "../../api/helper";
-import Loading from "../../basicModule/loading/index";
+import Loading from "../../components/utils/loading/index";
 import Player from "../Player/index";
 
 import * as S from "./style.js";
@@ -93,7 +93,7 @@ const Search = memo(({ ...props }) => {
                   {` - ${song.album.name || `${song.name}`}`}
                 </div>
               </div>
-              <i className="iconfont icon_music">&#xe8b2;</i>
+              {/* <i className="iconfont icon_music">&#xe8b2;</i> */}
             </div>
           )
         )}

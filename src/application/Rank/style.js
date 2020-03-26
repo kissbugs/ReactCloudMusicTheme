@@ -7,8 +7,8 @@ export const RankContainer = styled.div`
     padding: 10px 0;
     line-height: 1.5em;
   }
-  @media screen and (min-width: 1024px) {
+  /* @media screen and (min-width: 1024px) {
     max-width: 500px;
     margin: 0 auto;
-  }
+  } */
 `

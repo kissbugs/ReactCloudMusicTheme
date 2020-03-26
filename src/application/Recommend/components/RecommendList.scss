@@ -9,13 +9,22 @@
     }
   }
   ul.recommend_list_box {
-    // white-space: nowrap;
-    // overflow-y: hidden;
-    // overflow-x: scroll;
-    // -webkit-overflow-scrolling: touch;
-    // padding-left: 10px;
+    white-space: nowrap;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    padding-left: 10px;
     li {
+      @media screen and (min-width: 1024px) {
+        max-width: 240px;
+      }
       // margin: 10px 0 10px 10px;
+      &:first-child {
+        margin-left: 0;
+      }
+      &:last-child {
+        margin-right: 10px;
+      }
       margin: 0 0 15px 2.5%;
       width: 30%;
       height: 100%;

@@ -16,7 +16,7 @@ export const PlayerContainer = styled.div`
   /* border-radius: 50px; */
   left: 10px;
   bottom: 10px;
-  z-index: 100;
+  z-index: 1000;
   .media_play_container {
     display: flex;
     align-items: center;
@@ -76,7 +76,7 @@ export const PlayerContainer = styled.div`
         letter-spacing: 4px;
       }
       .song_time_active {
-        color: #e2174e;
+        color: #f5f5f5;
       }
       .play_status {
         .icon_play, .icon_pause {

@@ -1,8 +1,7 @@
 import React, { lazy, Suspense, useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-// import PageLoading from "../components/utils/page_loading/index.jsx";
-import Loading from "../basicModule/loading/index";
-import TopMenuLayout from "../basicModule/TopMenuLayout.jsx";
+import Loading from "../components/utils/loading/index";
+import TopMenuLayout from "../components/utils/TopMenuLayout.jsx";
 
 const SuspenseComponent = Component => props => {
   return (
@@ -18,19 +17,24 @@ const RecommendComponent = lazy(() =>
     /* webpackChunkName: 'recommend' */ "../application/Recommend/index.jsx"
   )
 );
+// 专辑列表
 const AlbumsComponent = lazy(() =>
   import(/* webpackChunkName: 'albums' */ "../application/Albums/index.jsx")
 );
+// 专辑列表
+const AlbumsDetailComponent = lazy(() =>
+  import(
+    /* webpackChunkName: 'albums_detail' */ "../application/AlbumsDetails/index.jsx"
+  )
+);
+
 const SongListComponent = lazy(() =>
   import(
-    /* webpackChunkName: 'song-list' */ "../application/SongList/index.jsx"
+    /* webpackChunkName: 'song_list' */ "../application/SongList/index.jsx"
   )
 );
 const RankComponent = lazy(() =>
   import(/* webpackChunkName: 'rank' */ "../application/Rank/index.jsx")
-);
-const DjRadioComponent = lazy(() =>
-  import(/* webpackChunkName: 'dj-radio' */ "../application/DjRadio/index.jsx")
 );
 const SearchComponent = lazy(() =>
   import(/* webpackChunkName: 'search' */ "../application/Search/index.jsx")
@@ -50,16 +54,16 @@ export default function Routes() {
           path="/recommend"
           component={SuspenseComponent(RecommendComponent)}
         />
+        <Route
+          path="/playlist"
+          component={SuspenseComponent(AlbumsDetailComponent)}
+        />
         <Route path="/albums" component={SuspenseComponent(AlbumsComponent)} />
         <Route
           path="/songList"
           component={SuspenseComponent(SongListComponent)}
         />
         <Route path="/rank" component={SuspenseComponent(RankComponent)} />
-        <Route
-          path="/djRadio"
-          component={SuspenseComponent(DjRadioComponent)}
-        />
         <Route path="/search" component={SuspenseComponent(SearchComponent)} />
 
         <Route

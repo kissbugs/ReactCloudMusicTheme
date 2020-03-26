@@ -1,6 +1,10 @@
 import styled from "styled-components"
 
 export const SlideCarouselContainer = styled.div`
+  @media screen and (min-width: 1024px) {
+    max-width: 50vw;
+    margin: 30px auto 0px;
+  }
   .slide_carousel_container {
     position: relative;
     box-sizing: border-box;

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import SlideCarousel from "../../components/slide_carousel/index.jsx";
 import * as actionTypes from "./store/actionCreators.js";
-import Loading from "../../basicModule/loading/index";
+import Loading from "../../components/utils/loading/index";
 import SongList from "../SongList/index";
 import * as S from "./style.js";
 import * as Components from "./components";
@@ -83,21 +83,21 @@ const Recommend = memo(({ ...props }) => {
   useEffect(() => {
     // if (!bannerList) {
     getBannerListDataDispatch();
-    getRecommendListDataDispatch();
-    getCategotyPlayListDataDispatch();
+    getRecommendListDataDispatch(6);
+    // getCategotyPlayListDataDispatch();
     // }
   }, []);
 
   return (
     <S.RecommendContainer>
       <SlideCarousel bannerList={bannerList} />
-      {categoryPlayList.length > 0 && (
+      {/* {categoryPlayList.length > 0 && (
         // 歌曲流派 · 歌单分类
         <Components.CategoryPlaylist
           categoryPlayList={categoryPlayList}
           ThemeColor={ThemeColor}
         />
-      )}
+      )} */}
       {<Components.RecommendList {...props} />}
       {enterLoading ? <Loading></Loading> : null}
     </S.RecommendContainer>
@@ -118,15 +118,15 @@ const mapDispatchToProps = dispatch => {
     getBannerListDataDispatch() {
       dispatch(actionTypes.getBannerList());
     },
-    getRecommendListDataDispatch() {
-      dispatch(actionTypes.getRecommendList());
+    getRecommendListDataDispatch(query) {
+      dispatch(actionTypes.getRecommendList(query));
     },
     // changeEnterLoadingDispatch(data) {
     //   dispatch(changeEnterLoading(data));
     // },
-    getCategotyPlayListDataDispatch() {
-      dispatch(actionTypes.getCategoryPlayList());
-    }
+    // getCategotyPlayListDataDispatch() {
+    //   dispatch(actionTypes.getCategoryPlayList());
+    // }
   };
 };
 

@@ -12,7 +12,7 @@ export default ({ ...props }) => {
     <div className="song_genre_box">
       <div className="song_genre_top">
         <div className="text">歌曲流派</div>
-        {/* <div className="more_genre">查看更多 »</div> */}
+        <div className="more_genre">查看更多 »</div>
       </div>
       <ul className="song_genre_content clear_scroll_bar">
         {categoryPlayList.map((category, index) => (

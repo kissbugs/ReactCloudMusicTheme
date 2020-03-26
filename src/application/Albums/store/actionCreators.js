@@ -1,8 +1,8 @@
 import * as actionTypes from "./constants"
-import { getAlbumDetailRequest } from "../../../api/request"
+import { getRecommendListRequest } from "../../../api/request"
 
-export const changeAlbumList = (data) => ({
-  type: actionTypes.SET_ALBUM_LIST,
+export const changeAlbums = (data) => ({
+  type: actionTypes.SET_ALBUMS,
   data
 });
 
@@ -11,15 +11,15 @@ export const changeEnterLoading = (data) => ({
   data
 })
 
-export const getAlbumList = (id) => {
+export const getAlbums = () => {
   return (dispatch) => {
-    getAlbumDetailRequest(id).then((data) => {
-      console.log('getAlbumList_data: ', data);
-      const action = changeAlbumList(data.playlist)
+    getRecommendListRequest().then((data) => {
+      console.log('getAlbums_data: ', data);
+      const action = changeAlbums(data.result)
       dispatch(action)
       dispatch(changeEnterLoading(false))
     }).catch(e => {
-      console.error('获取歌单详情出错: ', e)
+      console.error('获取推荐全部列表: ', e)
     })
   }
 }

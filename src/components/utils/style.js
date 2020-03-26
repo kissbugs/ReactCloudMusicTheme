@@ -1,10 +1,10 @@
 import styled from "styled-components"
 
 export const TopBarContainer = styled.div`
-  @media screen and (min-width: 1024px) {
+  /* @media screen and (min-width: 1024px) {
     max-width: 500px;
     margin: 0 auto;
-  }
+  } */
 `
 
 export const BarBox = styled.div`

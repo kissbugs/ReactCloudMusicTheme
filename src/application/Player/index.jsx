@@ -1,6 +1,17 @@
-import React, { memo, useState, useEffect, useRef } from "react";
+import React, {
+  memo,
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback
+} from "react";
 import { formatAudioTime } from "../../api/helper";
 import { connect } from "react-redux";
+import ModalManager from "../../components/utils/Modal/ModalManage";
+import ModalMask from "../../components/utils/Modal/ModalMask";
+import PlayDetail from "./play_detail/index";
+
 import * as S from "./style";
 import disco from "../../assets/images/disc.png";
 
@@ -103,6 +114,27 @@ const Player = ({ ...props }) => {
   // console.log("songDuration", songDuration);
   // console.log("percentWidth", percentWidth);
 
+  const usePlayDetailModal = useMemo(
+    () =>
+      new ModalManager({
+        render: (_, modalClose) => {
+          const onCloseModal = () => {
+            modalClose();
+          };
+          return (
+            <ModalMask>
+              <PlayDetail onClose={onCloseModal} />
+            </ModalMask>
+          );
+        }
+      }),
+    []
+  );
+
+  const handleOpenSongDetail = () => {
+    usePlayDetailModal.open();
+  };
+
   return (
     <S.PlayerContainer>
       <div className="media_play_container">
@@ -113,16 +145,12 @@ const Player = ({ ...props }) => {
             alt=""
           />
         </div>
-        <div
-          className="time_play_box"
-          style={{
-            background: `#010101 linear-gradient(90deg, rgb(243, 190, 25) 0px, rgb(240, 248, 255) ${percentWidth}, transparent ${percentWidth}, transparent 100%)`
-          }}
-        >
+        <div className="time_play_box">
           <div
             className={`song_time ${
               !isAudioPlayPause ? "song_time_active" : ""
             }`}
+            onClick={handleOpenSongDetail}
           >
             {songDuration}
           </div>

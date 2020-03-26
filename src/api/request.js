@@ -8,9 +8,9 @@ export const getBannerRequest = () => {
   return axiosInstance.get("/banner");
 };
 
-// 获取推荐列表
-export const getRecommendListRequest = () => {
-  return axiosInstance.get("/personalized")
+// 获取推荐全部列表
+export const getRecommendListRequest = (count = 30) => {
+  return axiosInstance.get(`/personalized?limit=${count}`)
 }
 
 // 获取歌单分类（流派）

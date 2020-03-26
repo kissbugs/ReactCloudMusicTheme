@@ -1,5 +1,8 @@
 import * as actionTypes from "./constants"
-import { getBannerRequest, getRecommendListRequest, getCategoryPlayListRequest } from "../../../api/request"
+import {
+  getBannerRequest, getRecommendListRequest,
+  getCategoryPlayListRequest
+} from "../../../api/request"
 
 export const changeBannerList = (data) => ({
   type: actionTypes.CHANGE_BANNER,
@@ -34,9 +37,9 @@ export const getBannerList = () => {
 }
 
 
-export const getRecommendList = () => {
+export const getRecommendList = (query) => {
   return (dispatch) => {
-    getRecommendListRequest().then(data => {
+    getRecommendListRequest(query).then(data => {
       const action = changeRecommendList(data.result)
       dispatch(action)
       dispatch(changeEnterLoading(false))

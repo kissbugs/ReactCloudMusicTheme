@@ -1,160 +1,120 @@
 import React, { memo, useEffect } from "react";
 import { connect } from "react-redux";
-
-import SlideCarousel from "../../components/slide_carousel/index.jsx";
-import * as actionTypes from "./store/actionCreators.js";
-import Loading from "../../components/utils/loading/index";
-import SongList from "../SongList/index";
+import { Link } from "react-router-dom";
+import LazyLoad from "react-lazyload";
+import music_2 from "../../assets/images/music_2.png";
 import * as S from "./style.js";
-import * as Components from "./components";
 
-const ThemeColor = [
-  {
-    background: "#ffdfd9",
-    font: "#99594d",
-    titleBorder: "#ff6a4d",
-    shadow: "128,74,64,0.5"
-  },
-  {
-    background: "#fff9d9",
-    font: "#998c4d",
-    titleBorder: "#ccbb66",
-    shadow: "128,117,64,0.5"
-  },
-  {
-    background: "#d9ffe5",
-    font: "#4d9966",
-    titleBorder: "#3dcc6d",
-    shadow: "64,128,85,0.5"
-  },
-  {
-    background: "#d9f2ff",
-    font: "#4d8099",
-    titleBorder: "#4dc3ff",
-    shadow: "64,106,128,0.5"
-  },
-  {
-    background: "#d9d9ff",
-    font: "#4d4d99",
-    titleBorder: "#8080ff",
-    shadow: "64,64,128,0.5"
-  },
-  {
-    background: "#ecd9ff",
-    font: "#734d99",
-    titleBorder: "#bf80ff",
-    shadow: "96,64,128,0.5"
-  },
-  {
-    background: "#ffd9df",
-    font: "#994d59",
-    titleBorder: "#ff8095",
-    shadow: "128,64,74,0.5"
-  },
-  {
-    background: "#d9fff9",
-    font: "#4d998c",
-    titleBorder: "#45e6cb",
-    shadow: "64,128,117,0.5"
-  },
-  {
-    background: "#e5ffd9",
-    font: "#66994d",
-    titleBorder: "#74d941",
-    shadow: "85,128,64,0.5"
-  },
-  {
-    background: "#ffecd9",
-    font: "#99734d",
-    titleBorder: "#ffa64d",
-    shadow: "128,96,64,0.5"
-  }
-];
+import * as actionTypes from "./store/actionCreators.js";
+import Loading from "../../components/utils/loading/index"
+import { playCount } from "../../api/helper.js";
+import Banner from "../../application/Banner/index"
+import NewSong from "../../application/NewSong/index";
+import TopMenuLayout from "../../components/utils/TopMenuLayout.jsx"
 
 const Recommend = memo(({ ...props }) => {
-  console.log("recommend_props-----: ", props);
   const {
-    bannerList,
     recommendList,
-    newSongList,
-    topNewSongList,
-    categoryPlayList,
     enterLoading
   } = props;
   const {
-    getBannerListDataDispatch,
-    getRecommendListDataDispatch,
-    getNewSongListDataDispatch,
-    getTopNewSongListDataDispatch,
-    getCategotyPlayListDataDispatch
+    getRecommendListDataDispatch
   } = props;
 
   useEffect(() => {
-    if (!bannerList.length) {
-      getBannerListDataDispatch();
-    }
     if (!recommendList.length) {
       getRecommendListDataDispatch(5);
     }
-    if (!newSongList.length) {
-      getNewSongListDataDispatch();
-    }
-    if (!topNewSongList.length) {
-      getTopNewSongListDataDispatch(0);
-    }
-    // if (!categoryPlayList.length) {
-    //   getCategotyPlayListDataDispatch();
-    // }
-  }, [bannerList, recommendList, newSongList, topNewSongList]);
+  }, [recommendList]);
 
   return enterLoading ? (
     <Loading />
   ) : (
     <S.RecommendContainer>
-      <SlideCarousel bannerList={bannerList} />
-      {/* 歌曲流派 · 歌单分类 */}
-      {/* <Components.CategoryPlaylist
-        categoryPlayList={categoryPlayList}
-        ThemeColor={ThemeColor}
-      /> */}
-      <Components.RecommendList recommendList={recommendList} />
-      <Components.NewSongList newSongList={newSongList} />
-      <Components.TopNewSongList topNewSongList={topNewSongList} />
+      <RecommendList recommendList={recommendList} />
     </S.RecommendContainer>
   );
 });
 
+
+const RecommendList = ({ ...props }) => {
+  const { recommendList } = props;
+  if (!recommendList.length) return "";
+  // let newRecommendList = recommendList.map(item => Object.assign({}, item));
+  // const splitedRecommendList = [];
+  // while (newRecommendList.length) {
+  //   const sliced = newRecommendList.splice(0, 3);
+  //   splitedRecommendList.push({
+  //     value: sliced
+  //   });
+  // }
+  // console.log("splitedRecommendList: ", splitedRecommendList);
+  return (
+    <div className="recommend_list_container">
+      <div className="title_and_more">
+        <div className="title">推荐歌单</div>
+        <Link
+          className="more_recommend"
+          to={{
+            pathname: "/albums"
+          }}
+        >
+          查看更多 <i className="iconfont .icon_right">&#xe6a1;</i>
+        </Link>
+      </div>
+      <ul className="recommend_list_box">
+        {recommendList.map((item, index) => (
+          <li key={index}>
+            <Link
+              to={{
+                pathname: "/playlist",
+                search: `?id=${item.id}`
+              }}
+            >
+              <div className="count_img_box">
+                <div className="play_count_box">
+                  <div className="play_count">
+                    <i className="iconfont icon_listen">&#xe8b2;</i>
+                    {playCount(item.playCount)}
+                  </div>
+                </div>
+                <LazyLoad
+                  placeholder={
+                    <img width="100%" height="100%" src={music_2} alt="music" />
+                  }
+                >
+                  <img
+                    src={item.picUrl + "?param=300x300"}
+                    width="100%"
+                    height="100%"
+                    alt="music"
+                  />
+                </LazyLoad>
+              </div>
+              {/* <div className="name">{sliceStringText(item.name, 30)}</div> */}
+              <div className="name">{item.name}</div>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+
 const mapStateToProps = state => {
   return {
-    bannerList: state.recommend.bannerList,
     recommendList: state.recommend.recomendList,
-    newSongList: state.recommend.newSongList,
-    topNewSongList: state.recommend.topNewSongList,
-    // categoryPlayList: state.recommend.categoryPlayList,
     enterLoading: state.recommend.enterLoading
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getBannerListDataDispatch() {
-      dispatch(actionTypes.getBannerList());
-    },
     getRecommendListDataDispatch(query) {
       dispatch(actionTypes.getRecommendList(query));
-    },
-    getNewSongListDataDispatch() {
-      dispatch(actionTypes.getNewSongList());
-    },
-    getTopNewSongListDataDispatch(query) {
-      dispatch(actionTypes.getTopNewSongList(query));
+      dispatch(actionTypes.changeEnterLoading(true));
     }
-    // changeEnterLoadingDispatch(data) {
-    //   dispatch(changeEnterLoading(data));
-    // },
-    // getCategotyPlayListDataDispatch() {
-    //   dispatch(actionTypes.getCategoryPlayList());
-    // }
   };
 };
 

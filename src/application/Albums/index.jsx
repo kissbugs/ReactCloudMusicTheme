@@ -9,7 +9,6 @@ import * as S from "./style.js";
 import music_2 from "../../assets/images/music_2.png";
 
 const Albums = memo(({ ...props }) => {
-  console.log("Albums: ", props);
   const { getAlbumsDiapatch, albums } = props;
   const handleBackClick = useCallback(() => {
     // setBack(false);
@@ -33,7 +32,6 @@ const Albums = memo(({ ...props }) => {
 const AlbumsList = memo(({ ...props }) => {
   const { albums } = props;
   if (!albums || !albums.length) return "";
-  console.log("albums: ", albums);
   return (
     <div className="albums_container">
       <ul>

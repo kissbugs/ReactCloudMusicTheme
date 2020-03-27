@@ -149,10 +149,7 @@ Tabs.defaultProps = {
  * usage like:
  import { Tabs, TabPane } from "../../components/tabs/index.jsx";
   const tabClick = (e, activeTabIndex) => {
-    console.log("activeTabIndex: ", activeTabIndex);
-    const navigateUrl = MENU_UNITS[activeTabIndex];
-    window.location.href = navigateUrl.url;
-    console.log("navigateUrl: ", navigateUrl.url);
+    // const navigateUrl = MENU_UNITS[activeTabIndex];
   };
 
   <Tabs
@@ -168,6 +165,7 @@ Tabs.defaultProps = {
         activeStyle="tab_light"
         key={index}
       >
+        // 此部分可以再抽离出一个独立的组件，更直观
         <div className="content">{unit.name}</div>
       </TabPane>
     ))}

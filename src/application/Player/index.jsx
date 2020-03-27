@@ -18,7 +18,6 @@ import disco from "../../assets/images/disc.png";
 const Player = ({ ...props }) => {
   const { songUrl } = props;
   // const { playList, currentIndex } = props;
-  // console.log("Player: ", props);
   const audioRef = useRef();
   const [songDuration, setSongDuration] = useState("00:00");
   const [audioPlayPauseClass, setAudioPlayPauseClass] = useState("");
@@ -102,11 +101,9 @@ const Player = ({ ...props }) => {
     // console.log("isAudioPlayPause: ", isAudioPlayPause);
     if (isAudioPlayPause) {
       audioRef.current.play();
-      console.log("语音播放");
       setAudioPlayPauseClass("btn-play");
     } else {
       audioRef.current.pause();
-      console.log("语音暂停");
       setAudioPlayPauseClass("btn-pause");
     }
   };

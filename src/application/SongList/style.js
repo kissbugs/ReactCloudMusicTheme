@@ -1,5 +1,5 @@
 import styled from "styled-components"
 
-export const SongListContainer = styled.div`
+export const UlSongListContainer = styled.ul`
   color: #fff;
 `

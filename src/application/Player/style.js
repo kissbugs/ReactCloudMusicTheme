@@ -67,6 +67,7 @@ export const PlayerContainer = styled.div`
       margin-left: -20px;
       padding-left: 15px;
       width: 100%;
+      cursor: pointer;
       .song_time {
         width: 85px;
         color: #5f5f5f;

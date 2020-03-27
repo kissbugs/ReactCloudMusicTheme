@@ -9,6 +9,7 @@ export const CallBackContainer = styled.div`
   position: sticky;
   top: 0;
   background: #1a1a1a;
+  z-index: 10;
   i {
     color: #ffdc2c;
     font-size: 20px;

@@ -4,7 +4,6 @@ import { getAddNum, getMinusNum } from "./store/actionCreators.js";
 import * as S from "./style.js";
 
 function Details({ ...props }) {
-  // console.log("我是详情页_props: ", props);
   return (
     <S.DetailContainer>
       <span className="iconfont search">&#xe6ca;</span>

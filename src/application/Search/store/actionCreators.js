@@ -24,7 +24,6 @@ export const changeEnterLoading = (data) => ({
 export const getHotKeyWords = () => {
   return (dispatch) => {
     getHotKeyWordsRequest().then(data => {
-      // console.log('getHotKeyWordsRequest_data: ', data);
       const action = changeHotKeyWords(data.data)
       dispatch(action)
       // dispatch(changeEnterLoading(false))
@@ -36,7 +35,6 @@ export const getHotKeyWords = () => {
 export const getSearchSuggestList = (query) => {
   return (dispatch) => {
     getSuggestListRequest(query).then(data => {
-      console.log('getSuggestList_data: ', data);
       if (!data) return;
       let res = data.result || [];
       const action = changeSuggestList(res)
@@ -50,7 +48,6 @@ export const getSearchSuggestList = (query) => {
 export const getSearchResultSongList = (query) => {
   return (dispatch) => {
     getResultSongsListRequest(query).then(data => {
-      // console.log('getSearchResultSongList_data: ', data);
       if (!data) return;
       let res = data.result.songs || [];
       const action = changeResultSongList(res)

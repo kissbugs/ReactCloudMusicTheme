@@ -3,8 +3,6 @@
 import * as actionTypes from "./constants"
 
 export default (state = 0, action) => {
-  // console.log('state: ', state);
-  // console.log('action: ', action);
   switch (action.type) {
     case actionTypes.DETAIL_PLUS:
       return state + action.data

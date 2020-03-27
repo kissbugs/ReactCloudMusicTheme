@@ -14,7 +14,6 @@ export const changeEnterLoading = (data) => ({
 export const getAlbums = () => {
   return (dispatch) => {
     getRecommendListRequest().then((data) => {
-      console.log('getAlbums_data: ', data);
       const action = changeAlbums(data.result)
       dispatch(action)
       dispatch(changeEnterLoading(false))

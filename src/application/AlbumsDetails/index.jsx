@@ -8,20 +8,15 @@ import Player from "../Player/index";
 import * as S from "./style.js";
 
 const AlbumsDetails = memo(({ ...props }) => {
-  console.log("Albums_props: ", props);
-
   const { albumList, enterLoading } = props;
   const { getAlbumsListDataDispatch } = props;
   const [songUrl, setSongUrl] = useState("");
   const [currIndex, setCurrIndex] = useState("");
 
-  console.log("albumList: ", albumList);
-
   const id = props.location.search.split("=")[1];
-  console.log("id: ", id);
   useEffect(() => {
-    getAlbumsListDataDispatch(id);
-  }, [getAlbumsListDataDispatch, id]);
+    getAlbumsListDataDispatch("3206098087");
+  }, [getAlbumsListDataDispatch]);
 
   const [back, setBack] = useState(true);
   const handleBackClick = useCallback(() => {
@@ -105,7 +100,9 @@ const AlbumsDetails = memo(({ ...props }) => {
     );
   };
 
-  return (
+  return enterLoading ? (
+    <Loading />
+  ) : (
     <S.AlbumsContainer className={`animated ${back ? "rollIn" : "rollOut"}`}>
       <CallBackButton handleBackClick={handleBackClick} title="歌单列表" />
       <div
@@ -116,7 +113,6 @@ const AlbumsDetails = memo(({ ...props }) => {
         {renderTopAlbumsBrief()}
         {albumList.tracks && renderAlbumsLists()}
       </div>
-      {enterLoading ? <Loading></Loading> : null}
       {songUrl && (
         <Player
           songUrl={songUrl}

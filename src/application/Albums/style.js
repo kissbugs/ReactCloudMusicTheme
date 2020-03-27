@@ -30,10 +30,12 @@ export const AlbumsContainer = styled.div`
             .album_info {
               padding-left: 10px;
               .title, .description {
-                width: 150px;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
+                @media screen and (max-width: 375px) {
+                  max-width: 200px;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  overflow: hidden;
+                }
               }
               .title {
                 color: #fff;

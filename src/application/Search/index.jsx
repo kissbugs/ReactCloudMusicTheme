@@ -15,7 +15,6 @@ import Player from "../Player/index";
 import * as S from "./style.js";
 
 const Search = memo(({ ...props }) => {
-  console.log("Search_props: ", props);
   const {
     hotKeyWordsList,
     searchSuggestList,
@@ -71,7 +70,6 @@ const Search = memo(({ ...props }) => {
   const renderSearchSongs = () => {
     // 相关歌曲
     if (!searchResultSongsList || !searchResultSongsList.length) return "";
-    console.log("searchResultSongsList----liwei : ", searchResultSongsList);
     return (
       <div className="render_search_songs">
         {searchResultSongsList.map((song, index) =>
@@ -272,7 +270,6 @@ const SearchSongInput = memo(({ ...props }) => {
 });
 
 const mapStateToProps = state => {
-  console.log("---liwei---state: ", state);
   return {
     hotKeyWordsList: state.search.hotKeyWordsList,
     searchSuggestList: state.search.searchSuggestList,

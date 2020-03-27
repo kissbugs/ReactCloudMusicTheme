@@ -1,17 +1,10 @@
 import * as actionTypes from "./constants"
 import {
-  getRecommendListRequest, 
-  getNewSongRequest, 
+  getNewSongRequest
 } from "../../../api/request"
 
-
-export const changeRecommendList = (data) => ({
-  type: actionTypes.CHANGE_RECOMMEND_LIST,
-  data
-});
-
 export const changeNewSongList = (data) => ({
-  type: actionTypes.CHANGE_RECOMMEND_NEW_SONG,
+  type: actionTypes.CHANGE_NEW_SONG,
   data
 });
 

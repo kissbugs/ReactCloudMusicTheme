@@ -1,7 +1,6 @@
 import React, { lazy, Suspense, useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import Loading from "../components/utils/loading/index";
-import TopMenuLayout from "../components/utils/TopMenuLayout.jsx";
 
 const SuspenseComponent = Component => props => {
   return (
@@ -12,6 +11,9 @@ const SuspenseComponent = Component => props => {
 };
 
 // 注释 webpackChunkName: "xxx" 可以用于指定 chunk 的名称，在输出文件时有用
+const HomeComponent = lazy(() =>
+  import(/* webpackChunkName: 'home' */ "../application/Home/index.jsx")
+);
 const RecommendComponent = lazy(() =>
   import(
     /* webpackChunkName: 'recommend' */ "../application/Recommend/index.jsx"
@@ -21,25 +23,26 @@ const RecommendComponent = lazy(() =>
 const AlbumsComponent = lazy(() =>
   import(/* webpackChunkName: 'albums' */ "../application/Albums/index.jsx")
 );
-// 专辑列表
+// 专辑详情列表
 const AlbumsDetailComponent = lazy(() =>
   import(
     /* webpackChunkName: 'albums_detail' */ "../application/AlbumsDetails/index.jsx"
   )
 );
-
-const SongListComponent = lazy(() =>
-  import(
-    /* webpackChunkName: 'song_list' */ "../application/SongList/index.jsx"
-  )
+// 更多新歌（不同种类的音乐）
+const DiscoverComponent = lazy(() =>
+  import(/* webpackChunkName: 'discover' */ "../application/Discover/index.jsx")
 );
+// TODO:
 const RankComponent = lazy(() =>
   import(/* webpackChunkName: 'rank' */ "../application/Rank/index.jsx")
 );
+// 搜索
 const SearchComponent = lazy(() =>
   import(/* webpackChunkName: 'search' */ "../application/Search/index.jsx")
 );
 
+// todo: test
 const DetailsComponent = lazy(() =>
   import(/* webpackChunkName: 'detail' */ "../application/Details/index.jsx")
 );
@@ -47,9 +50,9 @@ const DetailsComponent = lazy(() =>
 export default function Routes() {
   return (
     <React.Fragment>
-      <Route path="/" component={TopMenuLayout} />
       <Switch>
-        <Redirect exact from="/" to="/recommend" />
+        <Redirect exact from="/" to="/home" />
+        <Route path="/home" component={SuspenseComponent(HomeComponent)} />
         <Route
           path="/recommend"
           component={SuspenseComponent(RecommendComponent)}
@@ -58,11 +61,11 @@ export default function Routes() {
           path="/playlist"
           component={SuspenseComponent(AlbumsDetailComponent)}
         />
-        <Route path="/albums" component={SuspenseComponent(AlbumsComponent)} />
         <Route
-          path="/songList"
-          component={SuspenseComponent(SongListComponent)}
+          path="/discover"
+          component={SuspenseComponent(DiscoverComponent)}
         />
+        <Route path="/albums" component={SuspenseComponent(AlbumsComponent)} />
         <Route path="/rank" component={SuspenseComponent(RankComponent)} />
         <Route path="/search" component={SuspenseComponent(SearchComponent)} />
 

@@ -37,7 +37,7 @@ export const getNewSongRequest = () => {
 
 // 新歌速递
 export const getTopNewSongRequest = id => {
-  return axiosInstance.get(`top/song?type=${id}`);
+  return axiosInstance.get(`/top/song?type=${id}`);
 };
 
 // 获取排行榜列表

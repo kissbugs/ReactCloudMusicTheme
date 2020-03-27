@@ -1,9 +1,25 @@
 import React, { memo, useEffect } from "react";
+import { connect } from "react-redux";
+import * as actionTypes from "./store/actionCreators.js";
+import Loading from "../../components/utils/loading/index";
 import * as S from "./style.js";
 import Swiper from "swiper";
 import "swiper/css/swiper.css";
 
-const AutoplayCarousel = memo(({ bannerList }) => { 
+const Banner = memo(({ ...props }) => {
+  const { bannerList, enterLoading } = props;
+  const { getBannerListDataDispatch } = props;
+
+  useEffect(() => {
+    if (!bannerList.length) {
+      getBannerListDataDispatch();
+    }
+  }, [bannerList]);
+
+  return enterLoading ? <Loading /> : <SlideCarousel bannerList={bannerList} />;
+});
+
+const AutoplayCarousel = memo(({ bannerList }) => {
   useEffect(() => {
     if (bannerList.length) {
       new Swiper(".slider-container", {
@@ -51,4 +67,20 @@ const SlideCarousel = props => {
   );
 };
 
-export default SlideCarousel;
+const mapStateToProps = state => {
+  return {
+    bannerList: state.banner.bannerList,
+    enterLoading: state.banner.enterLoading
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getBannerListDataDispatch() {
+      dispatch(actionTypes.getBannerList());
+      dispatch(actionTypes.changeEnterLoading(true));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Banner);

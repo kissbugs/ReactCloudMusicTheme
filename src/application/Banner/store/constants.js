@@ -1,0 +1,2 @@
+export const CHANGE_BANNER = 'banner/CHANGE_BANNER';
+export const CHANGE_ENTER_LOADING = 'banner/CHANGE_ENTER_LOADING';

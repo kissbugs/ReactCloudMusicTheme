@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/display-name */
 import React, { memo, useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";

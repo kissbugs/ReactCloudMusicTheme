@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable react/display-name */
 import React, { memo } from "react";
 import * as S from "./style.js";
 

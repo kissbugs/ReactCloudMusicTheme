@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import * as actionTypes from "./constants"
 import produce from "immer"
 

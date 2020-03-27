@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/display-name */
 import React, { memo, useCallback } from "react";
 import CallBackButton from "../../../components/utils/callback/CallBack";
 import * as S from "./style.js";

@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/display-name */
 import React, { memo, useEffect, useState, useCallback } from "react";
 import { connect } from "react-redux";
 import * as actionTypes from "./store/actionCreators.js";

@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/display-name */
 import React, { useEffect, memo, useCallback } from "react";
 import { connect } from "react-redux";
 import CallBackButton from "../../components/utils/callback/CallBack";
@@ -35,7 +37,7 @@ const AlbumsList = memo(({ ...props }) => {
   return (
     <div className="albums_container">
       <ul>
-        {albums.map((item, index) => (
+        {albums.map((item) => (
           <li key={item.id}>
             <Link
               to={{

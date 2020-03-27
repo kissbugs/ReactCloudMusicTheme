@@ -3,7 +3,7 @@ import { ToastManager } from "../components/utils/toast/index.jsx";
 // var toast = null;
 
 // export const baseApiUrl = "https://a.kissvon.cn"
-export const baseApiUrl = "http://api.kissvon.cn"
+export const baseApiUrl = "http://api.kissvon.cn/"
 const axiosInstance = axios.create({
   baseURL: baseApiUrl
 })

@@ -1,7 +1,9 @@
+/* eslint-disable no-undef */
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const resolve = dir => path.resolve(__dirname, dir);
 
 module.exports = {
@@ -18,7 +20,7 @@ module.exports = {
     },
     extensions: ['.js', '.jsx']
   },
-  
+
   module: {
     rules: [
       {
@@ -27,15 +29,43 @@ module.exports = {
         use: ['babel-loader', 'react-hot-loader/webpack']
       },
       {
-        test: /\.(png|jpg|gif)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: '[name].[ext]',
-            outputPath: './images/',
-            publicPath: '/images',
+        test: /\.(png|jpe?g|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              limit: 10000,
+              name: '[name].[ext]',
+              outputPath: './images/',
+              publicPath: '/images',
+            }
+          },
+          {
+            /*对图片进行压缩*/
+            loader: 'image-webpack-loader',
+            options: {
+              mozjpeg: {
+                progressive: true,
+                quality: 65
+              },
+              // optipng.enabled: false will disable optipng
+              optipng: {
+                enabled: false,
+              },
+              pngquant: {
+                quality: [0.65, 0.90],
+                speed: 4
+              },
+              gifsicle: {
+                interlaced: false,
+              },
+              // the webp option will enable WEBP
+              webp: {
+                quality: 75
+              }
+            }
           }
-        }
+        ]
       },
       {
         test: /\.(ttf|eot|woff|woff2|svg)$/,
@@ -66,7 +96,8 @@ module.exports = {
       template: path.resolve(__dirname, './public/index.html'),
       favicon: "./src/assets/images/favicon.ico" //favicon.ico文件路径
     }),
-    new CleanWebpackPlugin()
+    new CleanWebpackPlugin(),
+    // new BundleAnalyzerPlugin()
   ],
   devServer: {
     publicPath: '/',
@@ -79,19 +110,19 @@ module.exports = {
     hotOnly: true
   },
   // optimization: {
-    // usedExports: true, // 如果模式是生产环境，usedExports 不需要配置
-    // minimizer: [
-    //   new UglifyJsPlugin({
-    //     uglifyOptions: {
-    //       compress: {
-    //         drop_console: true
-    //       }
-    //     }
-    //   })
-    // ]
-    // splitChunks: {
-    //   chunks: "all" // 所有的 chunks 代码公共的部分分离出来成为一个单独的文件
-    // }
+  // usedExports: true, // 如果模式是生产环境，usedExports 不需要配置
+  // minimizer: [
+  //   new UglifyJsPlugin({
+  //     uglifyOptions: {
+  //       compress: {
+  //         drop_console: true
+  //       }
+  //     }
+  //   })
+  // ]
+  // splitChunks: {
+  //   chunks: "all" // 所有的 chunks 代码公共的部分分离出来成为一个单独的文件
+  // }
   // }
 }
 

@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* eslint-disable react/prop-types */
 /* eslint-disable react/display-name */
 import React, { memo } from "react";
 import * as S from "./style.js";
@@ -15,18 +15,7 @@ const SongList = memo(({ ...props }) => {
           onClick={() => handleSongList(item, index)}
         >
           <div className="left_content">
-            <LazyLoad
-              placeholder={
-                <img width="100%" height="100%" src={music_2} alt="music" />
-              }
-            >
-              <img
-                src={item.picUrl + "?param=50x50"}
-                width="100%"
-                height="100%"
-                alt="music"
-              />
-            </LazyLoad>
+            <img src={item.picUrl + "?param=50x50"} alt="music" />
             {item.song && (
               <div className="album_info">
                 <div className="title">{item.song.name}</div>

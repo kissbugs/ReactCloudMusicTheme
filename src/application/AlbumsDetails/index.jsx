@@ -102,25 +102,29 @@ const AlbumsDetails = memo(({ ...props }) => {
     );
   };
 
-  return enterLoading ? (
-    <Loading />
-  ) : (
+  return (
     <S.AlbumsContainer className={`animated ${back ? "rollIn" : "rollOut"}`}>
       <CallBackButton handleBackClick={handleBackClick} title="歌单列表" />
-      <div
-        className={`albums_container ${
-          songUrl ? "albums_container_song" : ""
-        } clear_scroll_bar`}
-      >
-        {renderTopAlbumsBrief()}
-        {albumList.tracks && renderAlbumsLists()}
-      </div>
-      {songUrl && (
-        <Player
-          songUrl={songUrl}
-          // playList={albumList.tracks}
-          // currentIndex={currIndex}
-        />
+      {enterLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <div
+            className={`albums_container ${
+              songUrl ? "albums_container_song" : ""
+            } clear_scroll_bar`}
+          >
+            {renderTopAlbumsBrief()}
+            {albumList.tracks && renderAlbumsLists()}
+          </div>
+          {songUrl && (
+            <Player
+              songUrl={songUrl}
+              // playList={albumList.tracks}
+              // currentIndex={currIndex}
+            />
+          )}
+        </>
       )}
     </S.AlbumsContainer>
   );

@@ -1,3 +1,5 @@
+/* eslint-disable react/display-name */
+/* eslint-disable react/no-danger-with-children */
 import React, {
   memo,
   useState,
@@ -152,11 +154,12 @@ const Player = ({ ...props }) => {
             {songDuration}
           </div>
           <div className={`play_status`} onClick={btnPlayClick}>
-            {isAudioPlayPause ? (
-              <i className="iconfont icon_play">&#xe668;</i>
-            ) : (
-              <i className="iconfont icon_pause">&#xe607;</i>
-            )}
+            <i
+              className="iconfont icon_play"
+              dangerouslySetInnerHTML={{
+                __html: isAudioPlayPause ? "&#xe668;" : "&#xe607;"
+              }}
+            ></i>
           </div>
         </div>
       </div>

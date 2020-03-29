@@ -5,13 +5,11 @@ import { connect } from "react-redux";
 import CallBackButton from "../../components/utils/callback/CallBack";
 import Loading from "../../components/utils/loading/index";
 import * as actionTypes from "./store/actionCreators.js";
-import LazyLoad from "react-lazyload";
 import { Link } from "react-router-dom";
 import * as S from "./style.js";
-import music_2 from "../../assets/images/music_2.png";
 
 const Albums = memo(({ ...props }) => {
-  const { getAlbumsDiapatch, albums } = props;
+  const { getAlbumsDiapatch, albums, enterLoading } = props;
   const handleBackClick = useCallback(() => {
     // setBack(false);
     setTimeout(() => {
@@ -26,7 +24,7 @@ const Albums = memo(({ ...props }) => {
   return (
     <S.AlbumsContainer>
       <CallBackButton handleBackClick={handleBackClick} title="专辑列表" />
-      <AlbumsList albums={albums} />
+      {enterLoading ? <Loading /> : <AlbumsList albums={albums} />}
     </S.AlbumsContainer>
   );
 });
@@ -37,7 +35,7 @@ const AlbumsList = memo(({ ...props }) => {
   return (
     <div className="albums_container">
       <ul>
-        {albums.map((item) => (
+        {albums.map(item => (
           <li key={item.id}>
             <Link
               to={{
@@ -46,18 +44,7 @@ const AlbumsList = memo(({ ...props }) => {
               }}
             >
               <div className="left_content">
-                <LazyLoad
-                  placeholder={
-                    <img width="100%" height="100%" src={music_2} alt="music" />
-                  }
-                >
-                  <img
-                    src={item.picUrl + "?param=50x50"}
-                    width="100%"
-                    height="100%"
-                    alt="music"
-                  />
-                </LazyLoad>
+                <img src={item.picUrl + "?param=50x50"} alt="music" />
                 <div className="album_info">
                   <div className="title">{item.name}</div>
                   <div className="description">{item.copywriter}</div>

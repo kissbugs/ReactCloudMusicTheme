@@ -33,7 +33,7 @@ const Search = memo(({ ...props }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [songUrl, setSongUrl] = useState("");
   const [songId, setSongId] = useState("");
-  const [back, setBack] = useState(true)
+  const [back, setBack] = useState(true);
 
   useEffect(() => {
     if (!hotKeyWordsList.length && !searchQuery) {
@@ -158,7 +158,6 @@ const Search = memo(({ ...props }) => {
   };
 
   const handleSearchQuery = q => {
-    console.warn("q: ", q);
     setSearchQuery(q);
     if (!q) return;
     getSearchSuggestListDispatch(q);
@@ -183,18 +182,23 @@ const Search = memo(({ ...props }) => {
           handleSearchQuery={handleSearchQuery}
           changeEnterLoadingDispatch={changeEnterLoadingDispatch}
         />
-        {hotKeyWordsList.length > 0 && renderPopularSearch()}
-        <div
-          className="search_input_container clear_scroll_bar"
-          style={{
-            height: songUrlBool && "calc(85vh - 60px)"
-          }}
-        >
-          {/* {renderSearchSingers()} */}
-          {/* {renderSearchAlbum()} */}
-          {renderSearchSongs()}
-        </div>
-        {enterLoading ? <Loading></Loading> : null}
+        {enterLoading ? (
+          <Loading />
+        ) : (
+          <>
+            {hotKeyWordsList.length > 0 && renderPopularSearch()}
+            <div
+              className="search_input_container clear_scroll_bar"
+              style={{
+                height: songUrlBool && "calc(85vh - 60px)"
+              }}
+            >
+              {/* {renderSearchSingers()} */}
+              {/* {renderSearchAlbum()} */}
+              {renderSearchSongs()}
+            </div>
+          </>
+        )}
       </div>
     </S.SearchContainer>
   );

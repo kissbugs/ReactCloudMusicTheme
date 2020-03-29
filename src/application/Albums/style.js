@@ -4,6 +4,7 @@ export const AlbumsContainer = styled.div`
   color: #fff;
   margin: 0 15px;
   .albums_container {
+    padding-top: 10px;
     ul {
       li {
         &:last-child {
@@ -23,9 +24,9 @@ export const AlbumsContainer = styled.div`
             display: flex;
             align-items: center;
             img {
-              min-width: 50px;
               width: 50px;
               border-radius: 8px;
+              display: block;
             }
             .album_info {
               padding-left: 10px;
@@ -50,6 +51,7 @@ export const AlbumsContainer = styled.div`
             }
           }
           .song_list_number {
+            white-space: nowrap;
             color: #828282;
             font-size: 13px;
           }

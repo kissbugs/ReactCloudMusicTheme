@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const version = new Date().getTime();
 const resolve = dir => path.resolve(__dirname, dir);
 
 module.exports = {
@@ -32,15 +33,6 @@ module.exports = {
         test: /\.(png|jpe?g|gif)$/,
         use: [
           {
-            loader: 'file-loader',
-            options: {
-              limit: 10000,
-              name: '[name].[ext]',
-              outputPath: './images/',
-              publicPath: '/images',
-            }
-          },
-          {
             /*对图片进行压缩*/
             loader: 'image-webpack-loader',
             options: {
@@ -63,6 +55,15 @@ module.exports = {
               webp: {
                 quality: 75
               }
+            }
+          },
+          {
+            loader: 'file-loader',
+            options: {
+              limit: 10000,
+              name: '[name].[ext]',
+              outputPath: './images/',
+              publicPath: 'images/',
             }
           }
         ]
@@ -88,17 +89,9 @@ module.exports = {
     ]
   },
   output: {
-    filename: 'index_bundle.js',
+    filename: `index_bundle.${version}.js`,
     path: path.resolve(__dirname, './dist')
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, './public/index.html'),
-      favicon: "./src/assets/images/favicon.ico" //favicon.ico文件路径
-    }),
-    new CleanWebpackPlugin(),
-    // new BundleAnalyzerPlugin()
-  ],
   devServer: {
     publicPath: '/',
     contentBase: path.resolve(__dirname, 'dist'),
@@ -109,20 +102,24 @@ module.exports = {
     hot: true,
     hotOnly: true
   },
-  // optimization: {
-  // usedExports: true, // 如果模式是生产环境，usedExports 不需要配置
-  // minimizer: [
-  //   new UglifyJsPlugin({
-  //     uglifyOptions: {
-  //       compress: {
-  //         drop_console: true
-  //       }
-  //     }
-  //   })
-  // ]
-  // splitChunks: {
-  //   chunks: "all" // 所有的 chunks 代码公共的部分分离出来成为一个单独的文件
-  // }
-  // }
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, './public/index.html'),
+      favicon: "./src/assets/images/favicon.ico" //favicon.ico文件路径
+    }),
+    new CleanWebpackPlugin(),
+    // new BundleAnalyzerPlugin()
+  ],
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          compress: {
+            drop_console: true
+          }
+        }
+      })
+    ]
+  }
 }
 

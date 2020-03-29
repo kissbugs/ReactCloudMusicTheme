@@ -2,6 +2,7 @@
 import styled from "styled-components"
 
 export const NewSongListContainer = styled.div`
+  padding-top: 20px;
   .title_and_more {
     color: #fff;
     display: flex;
@@ -48,9 +49,10 @@ export const NewSongListContainer = styled.div`
           display: flex;
           align-items: center;
           img {
-            min-width: 50px;
+            position: relative;
             width: 50px;
             border-radius: 8px;
+            display: block;
           }
           .album_info {
             padding-left: 10px;
@@ -76,6 +78,7 @@ export const NewSongListContainer = styled.div`
           }
         }
         .song_list_number {
+          white-space: nowrap;
           color: #828282;
           font-size: 13px;
         }

@@ -47,6 +47,43 @@ export const DiscoverContainer = styled.div`
   }
 `
 export const SongListBox = styled.div`
+  .music_type_box {
+    position: relative;
+    margin-bottom: 15px;
+    img {
+      width: 100%;
+      height: 100px;
+      filter: blur(3px);
+    }
+    .title {
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      font-size: 30px;
+      color: #fff;
+      span {
+        font-size: 15px;
+        color: #dcdcdc;
+        padding-left: 10px;
+      }
+    }
+  }
+  .left_play_number {
+    display: flex;
+    align-items: center;
+    background: #424242;
+    padding: 5px 0 5px 10px;
+    border-radius: 6px;
+    margin: 0 0 20px;
+    .icon_play, .icon_pause  {
+      color: #ffdc2c;
+      font-size: 30px;
+    }
+    span {
+      color: #9c9a9a;
+      padding-left: 10px;
+    }
+  }
   ul {
     li.song_active {
       .left_content .album_info {
@@ -71,9 +108,9 @@ export const SongListBox = styled.div`
         display: flex;
         align-items: center;
         img {
-          min-width: 50px;
           width: 50px;
           border-radius: 8px;
+          display: block;
         }
         .album_info {
           padding-left: 10px;
@@ -99,6 +136,7 @@ export const SongListBox = styled.div`
         }
       }
       .song_list_number {
+        white-space: nowrap;
         color: #828282;
         font-size: 13px;
       }

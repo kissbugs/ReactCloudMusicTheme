@@ -5,13 +5,12 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import * as actionTypes from "./store/actionCreators.js";
 import { getSongUrl } from "../../api/helper";
-import LazyLoad from "react-lazyload";
 import Loading from "../../components/utils/loading/index";
 import Player from "../Player/index";
-import music_2 from "../../assets/images/music_2.png";
 import * as S from "./style.js";
 
 const NewSong = memo(({ ...props }) => {
+  console.log("NewSong_props: ", props);
   const { newSongList, enterLoading } = props;
   const { getNewSongListDataDispatch } = props;
 
@@ -30,7 +29,7 @@ const NewSongList = ({ ...props }) => {
 
   // 更改数据操作权限，获取前5个数据
   let newRecommendSongList = newSongList.map(item => Object.assign({}, item));
-  const splitedRecommendSongList = newRecommendSongList.splice(0, 5);
+  const splitedRecommendSongList = newRecommendSongList.splice(0, 6);
 
   const [songUrl, setSongUrl] = useState("");
 
@@ -61,18 +60,7 @@ const NewSongList = ({ ...props }) => {
               onClick={() => handleSongList(item, index)}
             >
               <div className="left_content">
-                <LazyLoad
-                  placeholder={
-                    <img width="100%" height="100%" src={music_2} alt="music" />
-                  }
-                >
-                  <img
-                    src={item.picUrl + "?param=50x50"}
-                    width="100%"
-                    height="100%"
-                    alt="music"
-                  />
-                </LazyLoad>
+                <img src={item.picUrl + "?param=50x50"} alt="music" />
                 {item.song && (
                   <div className="album_info">
                     <div className="title">{item.song.name}</div>
@@ -101,7 +89,6 @@ const NewSongList = ({ ...props }) => {
     </S.NewSongListContainer>
   );
 };
-
 
 const mapStateToProps = state => {
   return {

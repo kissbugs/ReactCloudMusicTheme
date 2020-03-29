@@ -21,6 +21,9 @@ export const BarBox = styled.div`
     color: #ff9500;
     width: 50px;
     font-size: 20px;
+    @media screen and (min-width: 1024px) {
+      font-size: 24px;
+    }
   }
   img {
     width: 60px;

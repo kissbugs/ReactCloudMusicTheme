@@ -1,9 +1,10 @@
 /* eslint-disable no-undef */
 const path = require('path')
+const webpack = require("webpack")
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const version = new Date().getTime();
 const resolve = dir => path.resolve(__dirname, dir);
 
@@ -27,7 +28,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        use: ['babel-loader', 'react-hot-loader/webpack']
+        use: ['babel-loader?cacheDirectory=true', 'react-hot-loader/webpack']
       },
       {
         test: /\.(png|jpe?g|gif)$/,
@@ -105,21 +106,50 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, './public/index.html'),
-      favicon: "./src/assets/images/favicon.ico" //favicon.ico文件路径
+      favicon: "./src/assets/images/favicon.ico", //favicon.ico文件路径
     }),
     new CleanWebpackPlugin(),
-    // new BundleAnalyzerPlugin()
+    // new BundleAnalyzerPlugin(),
+    // new webpack.DllReferencePlugin({
+    //   context: __dirname, //这个上下文对应DllPlugin
+    //   manifest: require('./build/library/library.json')        
+    // })
   ],
   optimization: {
+    splitChunks: {
+      chunks: 'all',
+      minSize: 30000,
+      maxSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 6,
+      maxInitialRequests: 4,
+      automaticNameDelimiter: '~',
+      automaticNameMaxLength: 30,
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          chunks: "initial",
+          minChunks: 2,
+          minSize: 0,
+          name: "commons"
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true
+        }
+      }
+    },
     minimizer: [
       new UglifyJsPlugin({
         uglifyOptions: {
           compress: {
             drop_console: true
           }
-        }
+        },
+        parallel: true
       })
     ]
-  }
+  },
 }
 

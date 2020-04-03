@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/display-name */
-import React, { memo, useEffect, useCallback, useState, useMemo } from "react";
+import React, { memo, useEffect, useCallback, useState } from "react";
 import { connect } from "react-redux";
 import * as actionTypes from "./store/actionCreators.js";
 import Loading from "../../components/utils/loading/index";
@@ -17,8 +17,8 @@ const AlbumsDetails = memo(({ ...props }) => {
 
   const id = props.location.search.split("=")[1];
   useEffect(() => {
-    getAlbumsListDataDispatch("3206098087");
-  }, [getAlbumsListDataDispatch]);
+    getAlbumsListDataDispatch(id);
+  }, []);
 
   const [back, setBack] = useState(true);
   const handleBackClick = useCallback(() => {

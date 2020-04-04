@@ -68,22 +68,6 @@ export const SongListBox = styled.div`
       }
     }
   }
-  .left_play_number {
-    display: flex;
-    align-items: center;
-    background: #424242;
-    padding: 5px 0 5px 10px;
-    border-radius: 6px;
-    margin: 0 0 20px;
-    .icon_play, .icon_pause  {
-      color: #ffdc2c;
-      font-size: 30px;
-    }
-    span {
-      color: #9c9a9a;
-      padding-left: 10px;
-    }
-  }
   ul {
     li.song_active {
       .left_content .album_info {

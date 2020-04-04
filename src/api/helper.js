@@ -3,6 +3,8 @@ export const playCount = count => {
   return `${Math.floor(count / 10000)}万`
 };
 
+export const isEmptyObject = obj => !obj || Object.keys(obj).length === 0;
+
 export const debounce = (func, delay = 500) => {
   let timer;
   return function (...args) {
@@ -59,3 +61,11 @@ export const sliceStringText = (str, len) => {
     return str;
   }
 }
+
+// 找到当前的歌曲索引
+// export const findCurrentMusicIndex = (song, list) => {
+export const findIndex = (song, list) => {
+  return list.findIndex(item => {
+    return song.id === item.id;
+  });
+};

@@ -7,6 +7,8 @@ import { reducer as searchReducer } from "../application/Search/store/index";
 import { reducer as albumsDetailReducer } from "../application/AlbumsDetails/store/index";
 import { reducer as albumsReducer } from "../application/Albums/store/index";
 import { reducer as discoverReducer } from "../application/Discover/store/index";
+import { reducer as playerReducer } from "../application/Player/store/index";
+
 
 const reducer = combineReducers({
   banner: bannerReducer,
@@ -15,7 +17,8 @@ const reducer = combineReducers({
   search: searchReducer,
   albums_detail: albumsDetailReducer,
   albums: albumsReducer,
-  discover: discoverReducer
+  discover: discoverReducer,
+  player: playerReducer
 })
 
 export default reducer;

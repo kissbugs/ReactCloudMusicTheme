@@ -32,7 +32,7 @@ export const AlbumsContainer = styled.div`
               padding-left: 10px;
               .title, .description {
                 @media screen and (max-width: 375px) {
-                  max-width: 200px;
+                  max-width: 160px;
                   text-overflow: ellipsis;
                   white-space: nowrap;
                   overflow: hidden;

@@ -8,7 +8,7 @@ import NewSong from "../../application/NewSong/index";
 import Recommend from "../../application/Recommend/index";
 import TopMenuLayout from "../../components/utils/TopMenuLayout.jsx";
 
-import icon_yum from "../../assets/images/yum.png"
+import icon_yum from "../../assets/images/yum.png";
 
 const Home = memo(({ ...props }) => {
   const [homeMenuStatus, setHomeMenuStatus] = useState(false);

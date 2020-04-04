@@ -1,6 +1,7 @@
 import React, { lazy, Suspense, useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import Loading from "../components/utils/loading/index";
+import Player from "../application/Player/index";
 
 const SuspenseComponent = Component => props => {
   return (
@@ -50,6 +51,7 @@ const DetailsComponent = lazy(() =>
 export default function Routes() {
   return (
     <React.Fragment>
+      <Route path="/" component={Player} />
       <Switch>
         <Redirect exact from="/" to="/home" />
         <Route path="/home" component={SuspenseComponent(HomeComponent)} />

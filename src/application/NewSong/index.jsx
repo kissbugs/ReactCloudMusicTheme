@@ -4,9 +4,8 @@ import React, { memo, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import * as actionTypes from "./store/actionCreators.js";
-import { getSongUrl } from "../../api/helper";
 import Loading from "../../components/utils/loading/index";
-import Player from "../Player/index";
+import SongList from "../SongList/index";
 import * as S from "./style.js";
 
 const NewSong = memo(({ ...props }) => {
@@ -30,12 +29,6 @@ const NewSongList = ({ ...props }) => {
   // 更改数据操作权限，获取前5个数据
   let newRecommendSongList = newSongList.map(item => Object.assign({}, item));
   const splitedRecommendSongList = newRecommendSongList.splice(0, 6);
-
-  const [songUrl, setSongUrl] = useState("");
-
-  const handleSongList = (list, index) => {
-    setSongUrl(getSongUrl(list.id));
-  };
   return (
     <S.NewSongListContainer>
       <div className="title_and_more">
@@ -50,42 +43,8 @@ const NewSongList = ({ ...props }) => {
         </Link>
       </div>
       <div className="song_list_container">
-        <ul>
-          {splitedRecommendSongList.map((item, index) => (
-            <li
-              key={index}
-              className={`${
-                songUrl == getSongUrl(item.id) ? "song_active" : ""
-              }`}
-              onClick={() => handleSongList(item, index)}
-            >
-              <div className="left_content">
-                <img src={item.picUrl + "?param=50x50"} alt="music" />
-                {item.song && (
-                  <div className="album_info">
-                    <div className="title">{item.song.name}</div>
-                    {item.song.artists && (
-                      <div className="description">
-                        {item.song.artists.map(
-                          (item, index) => `${item.name} `
-                        )}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-              <div className="song_list_number">···</div>
-            </li>
-          ))}
-        </ul>
+        <SongList songList={splitedRecommendSongList} />
       </div>
-      {songUrl && (
-        <Player
-          songUrl={songUrl}
-          // playList={albumList.tracks}
-          // currentIndex={currIndex}
-        />
-      )}
     </S.NewSongListContainer>
   );
 };

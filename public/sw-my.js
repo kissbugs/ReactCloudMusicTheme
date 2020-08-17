@@ -6,7 +6,7 @@ var cacheFiles = [
   './lib/weui/weui.min.css'
 ]
 // 定义缓存的key值
-var cacheName = '20190301'
+var cacheName = '20200817'
 
 
 // 监听install事件，安装完成后，进行文件缓存

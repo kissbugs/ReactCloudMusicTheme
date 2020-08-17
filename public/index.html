@@ -6,7 +6,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"
     />
-    <link rel="manifest" href="manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -14,25 +13,6 @@
     <title>YUM Music</title>
   </head>
   <body>
-    <script>
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", function() {
-          navigator.serviceWorker
-            .register("/sw-my.js", { scope: "/" })
-            .then(function(registration) {
-              // 注册成功
-              console.log(
-                "ServiceWorker registration successful with scope: ",
-                registration.scope
-              );
-            })
-            .catch(function(err) {
-              // 注册失败:(
-              console.log("ServiceWorker registration failed: ", err);
-            });
-        });
-      }
-    </script>
     <div id="root"></div>
   </body>
 </html>

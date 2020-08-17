@@ -8,6 +8,7 @@ import Loading from "../../components/utils/loading/index";
 import { TabPane, Tabs } from "../../components/tabs/index";
 import { musicType } from "../../api/config";
 import SongList from "../SongList/index";
+import ReactPlaceholder from "react-placeholder";
 
 import type_music from "../../assets/images/type_music.jpg";
 
@@ -33,7 +34,7 @@ const Discover = memo(({ ...props }) => {
 
   // 通过已知name, 找到对应的key值
   const findTypeKey = useCallback((obj, value, compare = (a, b) => a === b) => {
-    return Object.keys(obj).find(k => compare(obj[k], value));
+    return Object.keys(obj).find((k) => compare(obj[k], value));
   }, []);
 
   const tabClick = (e, activeTabId) => {
@@ -55,14 +56,21 @@ const Discover = memo(({ ...props }) => {
       >
         {new_song_type.map((menu, index) => (
           <TabPane key={index} tab={menu} activeStyle="active" styles="tab">
-            {enterLoading ? (
-              <Loading />
-            ) : (
-              <SongListBox
-                topNewSongList={topNewSongList}
-                typeName={typeName}
-              />
-            )}
+            <ReactPlaceholder
+              type="media"
+              rows={15}
+              showLoadingAnimation={true}
+              ready={enterLoading ? false : true}
+            >
+              {enterLoading ? (
+                <Loading />
+              ) : (
+                <SongListBox
+                  topNewSongList={topNewSongList}
+                  typeName={typeName}
+                />
+              )}
+            </ReactPlaceholder>
           </TabPane>
         ))}
       </Tabs>
@@ -86,19 +94,19 @@ const SongListBox = memo(({ ...props }) => {
   );
 });
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     topNewSongList: state.discover.topNewSongList,
-    enterLoading: state.discover.enterLoading
+    enterLoading: state.discover.enterLoading,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     getTopNewSongListDataDispatch(query) {
       dispatch(actionTypes.getTopNewSongList(query));
       dispatch(actionTypes.changeEnterLoading(true));
-    }
+    },
   };
 };
 

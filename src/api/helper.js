@@ -5,6 +5,14 @@ export const playCount = count => {
 
 export const isEmptyObject = obj => !obj || Object.keys(obj).length === 0;
 
+export const reduceMapArName = ar =>
+  ar.reduce((acc, cur, index) => {
+    if (index === ar.length - 1) {
+      return acc + `${cur.name}`;
+    }
+    return acc + `${cur.name}/`;
+  }, "");
+
 export const debounce = (func, delay = 500) => {
   let timer;
   return function (...args) {

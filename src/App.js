@@ -9,6 +9,8 @@ import Routes from "./routes/index.jsx"
 
 import { GlobalStyle } from "./globalStyle.js";
 import { IconStyle } from "../src/assets/iconfont/iconfont"
+import "react-placeholder/lib/reactPlaceholder.css";
+
 function App() {
   return (
     <Provider store={store}>

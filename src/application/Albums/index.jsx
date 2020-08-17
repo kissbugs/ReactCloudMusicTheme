@@ -6,6 +6,7 @@ import CallBackButton from "../../components/utils/callback/CallBack";
 import Loading from "../../components/utils/loading/index";
 import * as actionTypes from "./store/actionCreators.js";
 import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import * as S from "./style.js";
 
 const Albums = memo(({ ...props }) => {
@@ -35,12 +36,12 @@ const AlbumsList = memo(({ ...props }) => {
   return (
     <div className="albums_container">
       <ul>
-        {albums.map(item => (
+        {albums.map((item) => (
           <li key={item.id}>
             <Link
               to={{
                 pathname: "/playlist",
-                search: `?id=${item.id}`
+                search: `?id=${item.id}`,
               }}
             >
               <div className="left_content">
@@ -59,20 +60,20 @@ const AlbumsList = memo(({ ...props }) => {
   );
 });
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     albums: state.albums.albums,
-    enterLoading: state.albums.enterLoading
+    enterLoading: state.albums.enterLoading,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     getAlbumsDiapatch() {
       dispatch(actionTypes.getAlbums());
       dispatch(actionTypes.changeEnterLoading(true));
-    }
+    },
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Albums);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Albums));

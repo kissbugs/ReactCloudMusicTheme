@@ -6,6 +6,7 @@ import * as actionTypes from "./store/actionCreators.js";
 import Loading from "../../components/utils/loading/index";
 import { getSongUrl } from "../../api/helper";
 import CallBackButton from "../../components/utils/callback/CallBack";
+import SongList from "../SongList/index";
 import Player from "../Player/index";
 import * as S from "./style.js";
 
@@ -74,30 +75,7 @@ const AlbumsDetails = memo(({ ...props }) => {
             <i className="iconfont lef_menu">&#xe615;</i>
           </div> */}
         </div>
-        <ul>
-          {albumList.tracks &&
-            albumList.tracks.length &&
-            albumList.tracks.map((list, index) => (
-              <li
-                key={list.id}
-                className={`${
-                  songUrl == getSongUrl(list.id) ? "song_active" : ""
-                }`}
-                onClick={() => handleSongList(list, index)}
-              >
-                <span>{index + 1}</span>
-                <div className="li_box">
-                  {/* <img src={albumList.coverImgUrl} alt="" /> */}
-                  <div className="album_info">
-                    <div className="title">{list.name}</div>
-                    <div className="description">{`${reduceMapArName(
-                      list.ar
-                    )}-${albumList.name}`}</div>
-                  </div>
-                </div>
-              </li>
-            ))}
-        </ul>
+        <SongList songList={albumList.tracks} albumList={albumList} />
       </div>
     );
   };

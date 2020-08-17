@@ -8,20 +8,16 @@ import music_2 from "../../assets/images/music_2.png";
 import * as S from "./style.js";
 
 import * as actionTypes from "./store/actionCreators.js";
-import Loading from "../../components/utils/loading/index"
+import Loading from "../../components/utils/loading/index";
 import { playCount } from "../../api/helper.js";
-import Banner from "../../application/Banner/index"
+import Banner from "../../application/Banner/index";
 import NewSong from "../../application/NewSong/index";
-import TopMenuLayout from "../../components/utils/TopMenuLayout.jsx"
+import TopMenuLayout from "../../components/utils/TopMenuLayout.jsx";
+import ReactPlaceholder from "react-placeholder";
 
 const Recommend = memo(({ ...props }) => {
-  const {
-    recommendList,
-    enterLoading
-  } = props;
-  const {
-    getRecommendListDataDispatch
-  } = props;
+  const { recommendList, enterLoading } = props;
+  const { getRecommendListDataDispatch } = props;
 
   useEffect(() => {
     if (!recommendList.length) {
@@ -29,15 +25,23 @@ const Recommend = memo(({ ...props }) => {
     }
   }, [recommendList]);
 
-  return enterLoading ? (
-    <Loading />
-  ) : (
-    <S.RecommendContainer>
-      <RecommendList recommendList={recommendList} />
-    </S.RecommendContainer>
+  return (
+    <ReactPlaceholder
+      type="media"
+      rows={7}
+      showLoadingAnimation={true}
+      ready={enterLoading ? false : true}
+    >
+      {enterLoading ? (
+        <Loading />
+      ) : (
+        <S.RecommendContainer>
+          <RecommendList recommendList={recommendList} />
+        </S.RecommendContainer>
+      )}
+    </ReactPlaceholder>
   );
 });
-
 
 const RecommendList = ({ ...props }) => {
   const { recommendList } = props;
@@ -58,7 +62,7 @@ const RecommendList = ({ ...props }) => {
         <Link
           className="more_recommend"
           to={{
-            pathname: "/albums"
+            pathname: "/albums",
           }}
         >
           查看更多 <i className="iconfont .icon_right">&#xe6a1;</i>
@@ -70,7 +74,7 @@ const RecommendList = ({ ...props }) => {
             <Link
               to={{
                 pathname: "/playlist",
-                search: `?id=${item.id}`
+                search: `?id=${item.id}`,
               }}
             >
               <div className="count_img_box">
@@ -103,20 +107,19 @@ const RecommendList = ({ ...props }) => {
   );
 };
 
-
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     recommendList: state.recommend.recomendList,
-    enterLoading: state.recommend.enterLoading
+    enterLoading: state.recommend.enterLoading,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     getRecommendListDataDispatch(query) {
       dispatch(actionTypes.getRecommendList(query));
       dispatch(actionTypes.changeEnterLoading(true));
-    }
+    },
   };
 };
 

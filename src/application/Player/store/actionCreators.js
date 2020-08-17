@@ -3,7 +3,7 @@ import { getSongDetailRequest } from '../../../api/request';
 
 export const changeCurrentSong = (data) => ({
   type: actionTypes.SET_CURRENT_SONG,
-  data: data
+  data
 });
 
 export const changeFullScreen = (data) => ({
@@ -18,12 +18,12 @@ export const changePlayingState = (data) => ({
 
 export const changeSequecePlayList = (data) => ({
   type: actionTypes.SET_SEQUECE_PLAYLIST,
-  data: data
+  data
 });
 
 export const changePlayList = (data) => ({
   type: actionTypes.SET_PLAYLIST,
-  data: data
+  data
 });
 
 export const changePlayMode = (data) => ({

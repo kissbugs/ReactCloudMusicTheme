@@ -7,7 +7,7 @@ import React, {
   useEffect,
   useRef,
   useMemo,
-  useCallback
+  useCallback,
 } from "react";
 import { formatAudioTime, getSongUrl, isEmptyObject } from "../../api/helper";
 import { connect } from "react-redux";
@@ -21,12 +21,15 @@ import disco from "../../assets/images/disc.png";
 const Player = ({ ...props }) => {
   console.log("Player_props: ", props);
   const [songDuration, setSongDuration] = useState("00:00");
+  const [songTotalDuration, setSongTotalDuration] = useState("00:00");
   const [percentWidth, setPercentWidth] = useState(0);
   const [preSong, setPreSong] = useState({});
   const [currentPlayingLyric, setPlayingLyric] = useState("");
+  const [playerFullScreen, setPlayerFullScreen] = useState(false);
 
   const audioRef = useRef();
-  const normalPlayerRef = useRef();
+  const progressWidthRef = useRef();
+  // const audioPlayerDetailRef = useRef();
 
   const {
     speed,
@@ -36,7 +39,7 @@ const Player = ({ ...props }) => {
     playList,
     mode,
     sequencePlayList,
-    fullScreen
+    fullScreen,
   } = props;
   const {
     togglePlayingDispatch,
@@ -46,7 +49,7 @@ const Player = ({ ...props }) => {
     changePlayListDispatch,
     changeModeDispatch,
     toggleFullScreenDispatch,
-    changeSpeedDispatch
+    changeSpeedDispatch,
   } = props;
 
   useEffect(() => {
@@ -55,8 +58,9 @@ const Player = ({ ...props }) => {
       currentIndex === -1 ||
       !playList[currentIndex] ||
       playList[currentIndex].id === preSong.id
-    )
+    ) {
       return;
+    }
     let current = playList[currentIndex];
     console.log("useEffect_current: ", current);
     changeCurrentDispatch(current);
@@ -68,13 +72,12 @@ const Player = ({ ...props }) => {
   }, [currentIndex, playList]);
 
   useEffect(() => {
-    console.log("playing: ", playing);
     playing ? audioRef.current.play() : audioRef.current.pause();
   }, [playing]);
-
-  // useEffect(() => {
-  //   normalPlayerRef.current.style.display = "none";
-  // }, []);
+  useEffect(() => {
+    console.log("sequencePlayList: ", sequencePlayList);
+    changePlayListDispatch(sequencePlayList);
+  }, []);
 
   const clickPlaying = (e, state) => {
     console.log("点击播放状态: ", state);
@@ -82,7 +85,7 @@ const Player = ({ ...props }) => {
     togglePlayingDispatch(state);
   };
 
-  const handleOnProgressChange = curPercent => {
+  const handleOnProgressChange = (curPercent) => {
     const newTime = curPercent * duration;
     setCurrentTime(newTime);
     audioRef.current.currentTime = newTime;
@@ -94,7 +97,7 @@ const Player = ({ ...props }) => {
     }
   };
 
-  const getLyric = id => {
+  const getLyric = (id) => {
     let lyric = "";
     if (currentLyric.current) {
       currentLyric.current.stop();
@@ -104,7 +107,7 @@ const Player = ({ ...props }) => {
       songReady.current = true;
     }, 3000);
     getLyricRequest(id)
-      .then(data => {
+      .then((data) => {
         lyric = data.lrc && data.lrc.lyric;
         if (!lyric) {
           currentLyric.current = null;
@@ -128,16 +131,21 @@ const Player = ({ ...props }) => {
   };
 
   const handleNext = () => {
+    console.log("handleNext====playList: ", playList);
+
     if (playList.length == 1) {
       handleLoop();
       return;
     }
     let index = Number(currentIndex) + 1;
     if (index === playList.length) index = 0;
+
+    console.log("handleNext====index: ", index);
     changeCurrentIndexDispatch(index);
   };
 
   const handleEnd = () => {
+    console.log("本首歌曲结束");
     handleNext();
   };
 
@@ -146,61 +154,134 @@ const Player = ({ ...props }) => {
   const handlePause = () => {};
 
   const handleOnTimeUpdate = () => {
-    let currentTime = Math.floor(audioRef.current.currentTime);
-    let duration = Math.floor(audioRef.current.duration);
+    let currentTime = audioRef.current.currentTime;
+    let duration = audioRef.current.duration;
+    console.log("duration: ", duration);
+    setSongTotalDuration(formatAudioTime(duration));
     setSongDuration(formatAudioTime(duration - currentTime));
-    let progressWidth = `${Math.round(100 * (currentTime / duration))}%`;
-    console.log("progressWidth: ", progressWidth);
+    let progressWidth = `${100 * (currentTime / duration)}%`;
     setPercentWidth(progressWidth);
+  };
+  const containerProgressClick = (e) => {
+    var relativeLeft =
+      e.clientX - progressWidthRef.current.getBoundingClientRect().left;
+    console.log("relativeLeft: ", relativeLeft);
+    seek(relativeLeft);
+  };
+
+  const seek = (relativeLeft) => {
+    if (isNaN(relativeLeft)) {
+      return;
+    }
+    var percent = 0.0;
+    percent = relativeLeft / progressWidthRef.current.offsetWidth;
+    console.log("seek_percent: ", percent);
+    if (percent > 1) {
+      percent = 1;
+    }
+    skipTo(percent);
+    // this.updateProgress(percent);
+    if (percent < 1 && percent > 0) {
+      // 拖动后自动播放
+      audioRef.current.play();
+    }
+  };
+
+  const skipTo = (percent) => {
+    audioRef.current.currentTime = audioRef.current.duration * percent;
   };
 
   // 展开全屏
   const handleOpenFullScreenPlayer = () => {
-    normalPlayerRef.current.style.display = "block";
+    console.log("展开全屏");
+    setPlayerFullScreen(true);
   };
 
   // 小型播放器
-  const MiniPlayer = () => {
+  const MiniPlayer = useCallback(() => {
     return (
-      <div className="media_play_container">
-        <div className="disco_box">
-          <img
-            src={disco}
-            className={playing ? "disco_play" : "disco_pause"}
-            alt=""
-          />
-        </div>
-        <div className="time_play_box">
-          <div
-            className={`song_time ${playing ? "song_time_active" : ""}`}
-            // onClick={handleOpenFullScreenPlayer}
-          >
-            {songDuration}
-          </div>
-          <div
-            className={`play_status`}
-            onClick={e => clickPlaying(e, playing ? false : true)}
-          >
-            <i
-              className="iconfont icon_play"
-              dangerouslySetInnerHTML={{
-                __html: playing ? "&#xe607;" : "&#xe668;"
-              }}
-            ></i>
+      <div>
+        <div className="media_play_container">
+          {/* <div className="disco_box">
+            <img
+              src={disco}
+              className={`play ${playing ? "" : "pause"}`}
+              alt="music_disco"
+            />
+          </div> */}
+          <div className="time_play_box">
+            <div
+              className={`song_time ${playing ? "song_time_active" : ""}`}
+              onClick={handleOpenFullScreenPlayer}
+            >
+              {songDuration}
+            </div>
+            <div
+              className={`play_status`}
+              onClick={(e) => clickPlaying(e, playing ? false : true)}
+            >
+              <i
+                className="iconfont icon_play"
+                dangerouslySetInnerHTML={{
+                  __html: playing ? "&#xe607;" : "&#xe668;",
+                }}
+              ></i>
+            </div>
           </div>
         </div>
       </div>
     );
-  };
+  }, [playing, songDuration]);
+
+  const AudioTimeProgress = useCallback(() => {
+    return (
+      <React.Fragment>
+        <S.PlayDetailTime>
+          <div className="song_count_down">{songDuration}</div>
+          <div className="song_total_time">{`/${songTotalDuration}`}</div>
+        </S.PlayDetailTime>
+        <S.PlayDetailProgressBarBox>
+          <div
+            ref={progressWidthRef}
+            className="active_progress_width"
+            style={{
+              backgroundImage: `linear-gradient(90deg, rgb(254, 221, 39) 0px, rgb(254, 221, 39) ${percentWidth}, rgb(245, 245, 245) ${percentWidth})`,
+            }}
+            onClick={containerProgressClick}
+          >
+            <div
+              className="play_active_width"
+              style={{
+                left: `${percentWidth}`,
+              }}
+            ></div>
+          </div>
+        </S.PlayDetailProgressBarBox>
+        <S.PlayDetailStatus>
+          <div className="detail_status_list">
+            <i className="iconfont prev">&#xe69d;</i>
+            <i
+              className="iconfont play_pause"
+              dangerouslySetInnerHTML={{
+                __html: playing ? "&#xe607;" : "&#xe668;",
+              }}
+              onClick={(e) => clickPlaying(e, playing ? false : true)}
+            ></i>
+            <i className="iconfont next">&#xe6a1;</i>
+          </div>
+        </S.PlayDetailStatus>
+      </React.Fragment>
+    );
+  }, [percentWidth]);
 
   // 大型详情播放器
   const AudioPlayerDetail = () => {
-    const handleBackClick = useCallback(() => {
-      // normalPlayerRef.current.style.display = "none";
-    }, []);
-
+    const handleBackClick = () => {
+      console.log("隐藏");
+      setPlayerFullScreen(false);
+    };
     return (
-      <S.AudioPlayDetailContainer ref={normalPlayerRef}>
+      <React.Fragment>
         <CallBackButton handleBackClick={handleBackClick} title="播放详情页" />
         <div className="play_detail_container">
           <img
@@ -209,47 +290,22 @@ const Player = ({ ...props }) => {
             height="100%"
             alt="music"
           />
-          <S.PlayDetailTime>
-            <div className="song_count_down">3:34</div>
-            <div className="song_total_time">/5:00</div>
-          </S.PlayDetailTime>
-          <S.PlayDetailProgressBarBox>
-            <div
-              className="active_progress_width"
-              style={{
-                backgroundImage: `linear-gradient(90deg, rgb(254, 221, 39) 0px, rgb(254, 221, 39) ${percentWidth}, rgb(245, 245, 245) ${percentWidth})`
-              }}
-            >
-              <div
-                className="play_active_width"
-                style={{
-                  left: `${percentWidth}`
-                }}
-              ></div>
-            </div>
-          </S.PlayDetailProgressBarBox>
-          <S.PlayDetailStatus>
-            <div className="detail_status_list">
-              <i className="iconfont prev">&#xe69d;</i>
-              <i
-                className="iconfont play_pause"
-                dangerouslySetInnerHTML={{
-                  __html: playing ? "&#xe607;" : "&#xe668;"
-                }}
-                onClick={e => clickPlaying(e, playing ? false : true)}
-              ></i>
-              <i className="iconfont next">&#xe6a1;</i>
-            </div>
-          </S.PlayDetailStatus>
         </div>
-      </S.AudioPlayDetailContainer>
+        <AudioTimeProgress />
+      </React.Fragment>
     );
   };
 
   return (
     <S.PlayerContainer>
       {/* isEmptyObject(currentSong) ? null : */}
-      {/* <AudioPlayerDetail /> */}
+      <S.AudioPlayerDetailContainer
+        style={{
+          display: playerFullScreen ? "block" : "none",
+        }}
+      >
+        <AudioPlayerDetail />
+      </S.AudioPlayerDetailContainer>
       <MiniPlayer />
       <audio
         preload="auto"
@@ -263,21 +319,20 @@ const Player = ({ ...props }) => {
   );
 };
 
-const mapStateToProps = state => {
-  console.log("state: ", state);
+
+
+const mapStateToProps = (state) => {
+  console.log("播放器_state: ", state.player);
   return {
-    // fullScreen: state.player.fullScreen,
     playing: state.player.playing,
     currentSong: state.player.currentSong,
     showPlayList: state.player.showPlayList,
-    // mode: state.player.mode,
-    // speed: state.player.speed,
     currentIndex: state.player.currentIndex,
     playList: state.player.playList,
-    sequencePlayList: state.player.sequencePlayList
+    sequencePlayList: state.player.sequencePlayList,
   };
 };
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     togglePlayingDispatch(data) {
       dispatch(actionTypes.changePlayingState(data));
@@ -286,6 +341,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(actionTypes.changeShowPlayList(data));
     },
     changePlayListDispatch(data) {
+      console.log("当前歌曲列表: ", data);
       dispatch(actionTypes.changePlayList(data));
     },
     changeCurrentIndexDispatch(data) {
@@ -295,7 +351,7 @@ const mapDispatchToProps = dispatch => {
     changeCurrentDispatch(data) {
       console.log("当前歌曲: ", data);
       dispatch(actionTypes.changeCurrentSong(data));
-    }
+    },
   };
 };
 

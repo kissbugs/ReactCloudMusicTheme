@@ -1,10 +1,10 @@
 import styled, { keyframes } from 'styled-components';
 
 const rotate = keyframes`
-  0%{
+  0% {
     transform: rotate(0);
   }
-  100%{
+  100% {
     transform: rotate(360deg);
   }
 `
@@ -49,11 +49,11 @@ export const PlayerContainer = styled.div`
         width: 60px;
         height: 60px;
         border-radius: 50%;
-        &.disco_play, &.disco_pause {
+        &.play{
           animation: ${rotate} 10s infinite;
-        }
-        &.disco_pause{
-          animation-play-state: paused;
+          &.pause{
+            animation-play-state: paused;
+          }
         }
       }
     }
@@ -89,34 +89,29 @@ export const PlayerContainer = styled.div`
   }
 `
 
-export const AudioPlayDetailContainer = styled.div`
+export const AudioPlayerDetailContainer = styled.div`
   background: rgb(26, 26, 26);
   position: fixed;
-  top: 0px;
+  top: 0;
   left: 0px;
   right: 0px;
   bottom: 0px;
   z-index: 9999;
   padding: 0px;
   width: 100vw;
+  overflow: hidden;
   .call_back_box {
     padding: 0 15px;
   }
   .play_detail_container {
-    /* position: relative;
-    &::after {
-      content: '';
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      position: absolute;
-      background-color: rgba(0,0,0,.65);
-    } */
+    text-align: center;
+    margin-top: 30px;
     img {
-      width: 100%;
-      height: calc(100vh);
-      opacity: 0.2;
+      max-width: 300px;
+      border-radius: 15px;
+      @media screen and (min-width: 1024px) {
+        max-width: 600px;
+      }
     }
   }
 `
@@ -146,7 +141,7 @@ export const PlayDetailProgressBarBox = styled.div`
     position: relative;
     width: 100%;
     height: 3px;
-    color: rgb(245, 245, 245);
+    background-color: rgb(245, 245, 245);
     border-radius: 200px;
     .play_active_width {
       position: absolute;

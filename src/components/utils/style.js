@@ -25,6 +25,12 @@ export const BarBox = styled.div`
       font-size: 24px;
     }
   }
+  .lef_menu {
+    visibility: hidden;
+    @media screen and (min-width: 1024px) {
+      visibility: visible;
+    }
+  }
   img {
     width: 60px;
   }

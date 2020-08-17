@@ -18,22 +18,22 @@ const initialState = {
 export default produce((draft, action) => {
   switch (action.type) {
     case actionTypes.SET_CURRENT_SONG:
-      draft.currentSong = action.data
+      draft.currentSong = action.data;
     case actionTypes.SET_FULL_SCREEN:
-      draft.fullScreen = action.data
+      draft.fullScreen = action.data;
     case actionTypes.SET_PLAYING_STATE:
-      draft.playing = action.data
+      draft.playing = action.data;
     case actionTypes.SET_SEQUECE_PLAYLIST:
-      draft.sequencePlayList = action.data
+      draft.sequencePlayList = action.data;
     case actionTypes.SET_PLAYLIST:
-      draft.playList = action.data
+      draft.playList = action.data;
     case actionTypes.SET_PLAY_MODE:
-      draft.mode = action.data
+      draft.mode = action.data;
     case actionTypes.SET_CURRENT_INDEX:
-      draft.currentIndex = action.data
+      draft.currentIndex = action.data;
     case actionTypes.SET_SHOW_PLAYLIST:
-      draft.showPlayList = action.data
+      draft.showPlayList = action.data;
     case actionTypes.CHANGE_SPEED:
-      draft.speed = action.data
+      draft.speed = action.data;
   }
 }, initialState)

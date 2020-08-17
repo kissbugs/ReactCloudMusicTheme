@@ -1,20 +1,14 @@
 {
-    "name": "yum music",
-    "short_name": "yum",
-    "icons": [
-        {
-          "src": "../src/assets/images/yum.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        },
-        {
-          "src": "../src/assets/images/yum.png",
-          "sizes": "512x512",
-          "type": "image/png"
-        }
-    ],
-    "start_url": "./index.html",
-    "display": "standalone",
-    "background_color": "#000000",
-    "theme_color": "#181818"
+  "name": "pwa yum music",
+  "short_name": "yum music",
+  "start_url": "index.html",
+  "theme_color": "#4374A5",
+  "background_color": "#4374A5",
+  "display": "standalone",
+  "orientation": "natural",
+  "icons": [{
+    "src": "../src/assets/images/images/yum.png",
+    "sizes": "192x192",
+    "type": "image/png"
+  }]
 }

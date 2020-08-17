@@ -127,11 +127,27 @@ module.exports = {
       automaticNameMaxLength: 30,
       cacheGroups: {
         commons: {
+          chunks: "all",
           test: /[\\/]node_modules[\\/]/,
-          chunks: "initial",
-          minChunks: 2,
-          minSize: 0,
-          name: "commons"
+          name: "commons",
+          priority: 6,
+          enforce: true,
+        },
+        swiper: {
+          name: "chunk-swiper",
+          test: /[\\/]node_modules[\\/]swiper[\\/]/,
+          chunks: "all",
+          priority: 7,
+          reuseExistingChunk: true,
+          enforce: true,
+        },
+        swiper: {
+          name: "chunk-animate",
+          test: /[\\/]node_modules[\\/]animate[\\/]/,
+          chunks: "all",
+          priority: 7,
+          reuseExistingChunk: true,
+          enforce: true,
         },
         default: {
           minChunks: 2,
